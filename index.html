@@ -17,37 +17,38 @@ transition:0.3s;
 :root{
 --bg:#000;
 --text:#fff;
---card:rgba(255,255,255,0.05);
---border:rgba(255,255,255,0.2);
+--card:rgba(255,255,255,0.06);
+--border:rgba(255,255,255,0.25);
 }
 
 .light{
---bg:#f5f5f5;
+--bg:#f2f2f2;
 --text:#000;
---card:rgba(0,0,0,0.05);
---border:rgba(0,0,0,0.2);
+--card:rgba(0,0,0,0.06);
+--border:rgba(0,0,0,0.25);
 }
 
 body{
 background:var(--bg);
 color:var(--text);
 overflow:hidden;
-text-align:center;
 }
 
 /* ===== TOP BAR ===== */
 .topbar{
 position:fixed;
-top:20px;
+top:25px;
 left:50%;
 transform:translateX(-50%);
+width:90%;
+max-width:420px;
 display:flex;
-gap:15px;
+justify-content:space-between;
 z-index:10;
 }
 
 .top-btn{
-padding:12px 22px;
+padding:12px 20px;
 border-radius:30px;
 background:var(--card);
 border:1px solid var(--border);
@@ -70,6 +71,7 @@ left:50%;
 transform:translate(-50%,-50%);
 width:90%;
 max-width:420px;
+text-align:center;
 animation:fade 1s ease;
 }
 
@@ -85,10 +87,15 @@ height:150px;
 border-radius:50%;
 border:2px solid var(--text);
 margin-bottom:25px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:60px;
+letter-spacing:4px;
 }
 
 .avatar:hover{
-transform:scale(1.08);
+transform:scale(1.07);
 box-shadow:0 0 40px var(--text);
 }
 
@@ -107,7 +114,10 @@ letter-spacing:2px;
 
 /* ===== LINKS ===== */
 .links a{
-display:block;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
 margin:14px 0;
 padding:16px;
 border-radius:30px;
@@ -126,6 +136,12 @@ box-shadow:0 0 25px var(--text);
 transform:translateY(-4px);
 }
 
+.links svg{
+width:18px;
+height:18px;
+fill:currentColor;
+}
+
 /* ===== CANVAS ===== */
 canvas{
 position:fixed;
@@ -142,22 +158,43 @@ z-index:-1;
 
 <div class="topbar">
 <div class="top-btn" onclick="toggleTheme()">Toggle Theme</div>
-<div class="top-btn" onclick="toggleMusic()">All In My Head</div>
+<div class="top-btn" onclick="toggleMusic()">Play Music</div>
 </div>
 
 <div class="container">
 
-<img src="https://i.imgur.com/6VBx3io.png" class="avatar">
+<div class="avatar">LX</div>
 
 <h1>Leksik</h1>
 <div class="bio">DLL Developer • VR • Modding</div>
 
 <div class="links">
-<a href="https://t.me/leksiktw" target="_blank">Telegram</a>
-<a href="https://discord.com/users/dobryaaaak" target="_blank">Discord</a>
-<a href="https://www.tiktok.com/@sigma.skibiditoilet.rizz" target="_blank">TikTok</a>
-<a href="https://leksik.carrd.co" target="_blank">Bio</a>
-<a href="https://guns.lol/leksik" target="_blank">Guns.lol</a>
+
+<a href="https://t.me/leksiktw" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M9.04 15.47l-.39 5.49c.56 0 .8-.24 1.09-.53l2.61-2.5 5.41 3.96c.99.55 1.69.26 1.95-.92l3.53-16.56.01-.01c.32-1.5-.54-2.09-1.51-1.73L1.7 9.19c-1.45.56-1.43 1.36-.25 1.72l4.98 1.55 11.57-7.29c.55-.34 1.05-.15.64.19"/></svg>
+Telegram
+</a>
+
+<a href="https://discord.com/users/dobryaaaak" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M20.3 4.37A19.79 19.79 0 0016.89 3c-.15.27-.32.63-.44.92a18.27 18.27 0 00-4.9 0c-.12-.29-.3-.65-.45-.92a19.74 19.74 0 00-3.4 1.37C4.2 9.09 3.2 13.66 3.5 18.17a19.88 19.88 0 006.06 3.08c.49-.67.93-1.38 1.3-2.12-.72-.27-1.4-.6-2.04-.99.17-.13.34-.26.5-.4 3.92 1.84 8.17 1.84 12.04 0 .17.14.34.27.5.4-.64.39-1.33.72-2.04.99.37.74.81 1.45 1.3 2.12a19.9 19.9 0 006.06-3.08c.37-5.34-.63-9.91-3.38-13.8z"/></svg>
+Discord
+</a>
+
+<a href="https://www.tiktok.com/@sigma.skibiditoilet.rizz" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M16 1a5 5 0 005 5v3a8 8 0 01-5-1.7V14a6 6 0 11-6-6c.34 0 .67.03 1 .08v3.1a3 3 0 103 3V1z"/></svg>
+TikTok
+</a>
+
+<a href="https://leksik.carrd.co" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/></svg>
+Bio
+</a>
+
+<a href="https://guns.lol/leksik" target="_blank">
+<svg viewBox="0 0 24 24"><path d="M2 12l20-6v12z"/></svg>
+Guns.lol
+</a>
+
 </div>
 
 <audio id="music" src="alex.mp3"></audio>
@@ -165,12 +202,10 @@ z-index:-1;
 </div>
 
 <script>
-/* ===== THEME SWITCH ===== */
 function toggleTheme(){
 document.body.classList.toggle("light");
 }
 
-/* ===== MUSIC ===== */
 const music=document.getElementById("music");
 
 function toggleMusic(){
@@ -181,16 +216,14 @@ music.pause();
 }
 }
 
-/* ===== LIVE PARTICLES ===== */
+/* ===== PARTICLES ===== */
 const canvas=document.getElementById("bg");
 const ctx=canvas.getContext("2d");
-
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
 let particles=[];
-
-for(let i=0;i<90;i++){
+for(let i=0;i<80;i++){
 particles.push({
 x:Math.random()*canvas.width,
 y:Math.random()*canvas.height,
@@ -202,23 +235,18 @@ dy:(Math.random()-0.5)*0.4
 
 function animate(){
 ctx.clearRect(0,0,canvas.width,canvas.height);
-
 particles.forEach(p=>{
 p.x+=p.dx;
 p.y+=p.dy;
-
 if(p.x<0||p.x>canvas.width)p.dx*=-1;
 if(p.y<0||p.y>canvas.height)p.dy*=-1;
-
 ctx.beginPath();
 ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
 ctx.fillStyle=getComputedStyle(document.body).getPropertyValue('--text');
 ctx.fill();
 });
-
 requestAnimationFrame(animate);
 }
-
 animate();
 </script>
 
