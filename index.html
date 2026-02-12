@@ -17,14 +17,14 @@ transition:0.3s;
 :root{
 --bg:#000;
 --text:#fff;
---card:rgba(255,255,255,0.06);
+--card:rgba(255,255,255,0.05);
 --border:rgba(255,255,255,0.25);
 }
 
 .light{
---bg:#f2f2f2;
+--bg:#f3f3f3;
 --text:#000;
---card:rgba(0,0,0,0.06);
+--card:rgba(0,0,0,0.05);
 --border:rgba(0,0,0,0.25);
 }
 
@@ -34,10 +34,10 @@ color:var(--text);
 overflow:hidden;
 }
 
-/* ===== TOP BAR ===== */
+/* ===== TOP BUTTONS ===== */
 .topbar{
 position:fixed;
-top:25px;
+top:30px;
 left:50%;
 transform:translateX(-50%);
 width:90%;
@@ -48,25 +48,25 @@ z-index:10;
 }
 
 .top-btn{
-padding:12px 20px;
+padding:10px 18px;
 border-radius:30px;
 background:var(--card);
 border:1px solid var(--border);
 backdrop-filter:blur(15px);
 cursor:pointer;
-font-size:14px;
+font-size:13px;
 letter-spacing:1px;
 }
 
 .top-btn:hover{
 transform:translateY(-3px);
-box-shadow:0 0 20px var(--text);
+box-shadow:0 0 15px var(--text);
 }
 
-/* ===== CONTAINER ===== */
+/* ===== MAIN ===== */
 .container{
 position:absolute;
-top:50%;
+top:55%;
 left:50%;
 transform:translate(-50%,-50%);
 width:90%;
@@ -76,39 +76,39 @@ animation:fade 1s ease;
 }
 
 @keyframes fade{
-from{opacity:0; transform:translate(-50%,-40%);}
+from{opacity:0; transform:translate(-50%,-45%);}
 to{opacity:1; transform:translate(-50%,-50%);}
 }
 
 /* ===== AVATAR ===== */
 .avatar{
-width:150px;
-height:150px;
+width:120px;
+height:120px;
 border-radius:50%;
 border:2px solid var(--text);
-margin-bottom:25px;
+margin:0 auto 25px auto;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:60px;
-letter-spacing:4px;
+font-size:48px;
+letter-spacing:3px;
 }
 
 .avatar:hover{
-transform:scale(1.07);
-box-shadow:0 0 40px var(--text);
+transform:scale(1.06);
+box-shadow:0 0 30px var(--text);
 }
 
 /* ===== TEXT ===== */
 h1{
-font-size:38px;
+font-size:36px;
 letter-spacing:3px;
 margin-bottom:6px;
 }
 
 .bio{
 opacity:0.7;
-margin-bottom:40px;
+margin-bottom:35px;
 letter-spacing:2px;
 }
 
@@ -117,9 +117,9 @@ letter-spacing:2px;
 display:flex;
 align-items:center;
 justify-content:center;
-gap:10px;
+gap:12px;
 margin:14px 0;
-padding:16px;
+padding:15px;
 border-radius:30px;
 background:var(--card);
 border:1px solid var(--border);
@@ -132,17 +132,19 @@ backdrop-filter:blur(15px);
 .links a:hover{
 background:var(--text);
 color:var(--bg);
-box-shadow:0 0 25px var(--text);
-transform:translateY(-4px);
+box-shadow:0 0 20px var(--text);
+transform:translateY(-3px);
 }
 
 .links svg{
-width:18px;
-height:18px;
-fill:currentColor;
+width:20px;
+height:20px;
+stroke:currentColor;
+fill:none;
+stroke-width:2;
 }
 
-/* ===== CANVAS ===== */
+/* ===== PARTICLES ===== */
 canvas{
 position:fixed;
 top:0;
@@ -171,27 +173,52 @@ z-index:-1;
 <div class="links">
 
 <a href="https://t.me/leksiktw" target="_blank">
-<svg viewBox="0 0 24 24"><path d="M9.04 15.47l-.39 5.49c.56 0 .8-.24 1.09-.53l2.61-2.5 5.41 3.96c.99.55 1.69.26 1.95-.92l3.53-16.56.01-.01c.32-1.5-.54-2.09-1.51-1.73L1.7 9.19c-1.45.56-1.43 1.36-.25 1.72l4.98 1.55 11.57-7.29c.55-.34 1.05-.15.64.19"/></svg>
+<!-- Telegram -->
+<svg viewBox="0 0 24 24">
+<path d="M22 2L11 13"/>
+<path d="M22 2L15 22L11 13L2 9L22 2Z"/>
+</svg>
 Telegram
 </a>
 
 <a href="https://discord.com/users/dobryaaaak" target="_blank">
-<svg viewBox="0 0 24 24"><path d="M20.3 4.37A19.79 19.79 0 0016.89 3c-.15.27-.32.63-.44.92a18.27 18.27 0 00-4.9 0c-.12-.29-.3-.65-.45-.92a19.74 19.74 0 00-3.4 1.37C4.2 9.09 3.2 13.66 3.5 18.17a19.88 19.88 0 006.06 3.08c.49-.67.93-1.38 1.3-2.12-.72-.27-1.4-.6-2.04-.99.17-.13.34-.26.5-.4 3.92 1.84 8.17 1.84 12.04 0 .17.14.34.27.5.4-.64.39-1.33.72-2.04.99.37.74.81 1.45 1.3 2.12a19.9 19.9 0 006.06-3.08c.37-5.34-.63-9.91-3.38-13.8z"/></svg>
+<!-- Discord (фикс) -->
+<svg viewBox="0 0 24 24">
+<path d="M8 15c1 1 7 1 8 0"/>
+<path d="M9 9h.01"/>
+<path d="M15 9h.01"/>
+<path d="M4 4c5-3 11-3 16 0c1 5 1 11 0 16c-5 3-11 3-16 0c-1-5-1-11 0-16Z"/>
+</svg>
 Discord
 </a>
 
 <a href="https://www.tiktok.com/@sigma.skibiditoilet.rizz" target="_blank">
-<svg viewBox="0 0 24 24"><path d="M16 1a5 5 0 005 5v3a8 8 0 01-5-1.7V14a6 6 0 11-6-6c.34 0 .67.03 1 .08v3.1a3 3 0 103 3V1z"/></svg>
+<!-- TikTok -->
+<svg viewBox="0 0 24 24">
+<path d="M9 3v12a4 4 0 1 1-4-4"/>
+<path d="M15 3c1 2 3 3 6 3"/>
+</svg>
 TikTok
 </a>
 
 <a href="https://leksik.carrd.co" target="_blank">
-<svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/></svg>
+<!-- Bio (карточка) -->
+<svg viewBox="0 0 24 24">
+<rect x="3" y="5" width="18" height="14" rx="2"/>
+<line x1="3" y1="10" x2="21" y2="10"/>
+</svg>
 Bio
 </a>
 
 <a href="https://guns.lol/leksik" target="_blank">
-<svg viewBox="0 0 24 24"><path d="M2 12l20-6v12z"/></svg>
+<!-- Guns (прицел) -->
+<svg viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="7"/>
+<line x1="12" y1="2" x2="12" y2="6"/>
+<line x1="12" y1="18" x2="12" y2="22"/>
+<line x1="2" y1="12" x2="6" y2="12"/>
+<line x1="18" y1="12" x2="22" y2="12"/>
+</svg>
 Guns.lol
 </a>
 
@@ -216,20 +243,20 @@ music.pause();
 }
 }
 
-/* ===== PARTICLES ===== */
+/* PARTICLES */
 const canvas=document.getElementById("bg");
 const ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
 let particles=[];
-for(let i=0;i<80;i++){
+for(let i=0;i<70;i++){
 particles.push({
 x:Math.random()*canvas.width,
 y:Math.random()*canvas.height,
 r:Math.random()*2,
-dx:(Math.random()-0.5)*0.4,
-dy:(Math.random()-0.5)*0.4
+dx:(Math.random()-0.5)*0.3,
+dy:(Math.random()-0.5)*0.3
 });
 }
 
