@@ -5,68 +5,128 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Leksik</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/feather-icons"></script>
+
 <style>
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: Arial, sans-serif;
+:root{
+  --bg:#0d0d0d;
+  --card:#1a1a1a;
+  --text:#ffffff;
 }
 
-body {
-height: 100vh;
-display: flex;
-justify-content: center;
-align-items: center;
-background: linear-gradient(135deg, #000000, #111111, #1a1a1a);
-color: white;
+.light{
+  --bg:#ffffff;
+  --card:#f2f2f2;
+  --text:#000000;
 }
 
-.container {
-text-align: center;
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  overflow:hidden;
+  transition:0.4s;
 }
 
-h1 {
-font-size: 40px;
-margin-bottom: 10px;
+.bg-gif{
+  position:fixed;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0.05;
+  z-index:-1;
 }
 
-.subtitle {
-color: gray;
-margin-bottom: 30px;
+.container{
+  text-align:center;
+  width:90%;
+  max-width:400px;
 }
 
-.button {
-display: block;
-width: 250px;
-margin: 10px auto;
-padding: 12px;
-border-radius: 10px;
-text-decoration: none;
-color: white;
-background: #222;
-transition: 0.3s;
+h1{
+  font-size:42px;
+  margin-bottom:5px;
 }
 
-.button:hover {
-background: white;
-color: black;
+.subtitle{
+  opacity:0.6;
+  margin-bottom:30px;
+}
+
+.button{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  background:var(--card);
+  padding:14px;
+  margin:10px 0;
+  border-radius:14px;
+  text-decoration:none;
+  color:var(--text);
+  font-weight:500;
+  transition:0.3s;
+}
+
+.button:hover{
+  transform:scale(1.05);
+}
+
+.theme-toggle{
+  margin-top:20px;
+  cursor:pointer;
+  opacity:0.7;
 }
 </style>
 </head>
-
 <body>
 
-<div class="container">
-<h1>Leksik</h1>
-<p class="subtitle">DLL Developer • VR</p>
+<img class="bg-gif" src="https://media.tenor.com/3bTxZ8g0VwQAAAAC/glitch-black.gif">
 
-<a class="button" href="https://guns.lol/leksik" target="_blank">guns.lol</a>
-<a class="button" href="https://leksik.carrd.co/" target="_blank">carrd</a>
-<a class="button" href="https://t.me/leksiktw" target="_blank">telegram</a>
-<a class="button" href="https://discord.com/users/dobryaaaak" target="_blank">discord</a>
+<div class="container">
+
+<h1>Leksik</h1>
+<div class="subtitle">DLL Developer • VR • Game Modding</div>
+
+<a class="button" href="https://guns.lol/leksik" target="_blank">
+<i data-feather="crosshair"></i> guns.lol
+</a>
+
+<a class="button" href="https://leksik.carrd.co/" target="_blank">
+<i data-feather="book"></i> bio
+</a>
+
+<a class="button" href="https://t.me/leksiktw" target="_blank">
+<i data-feather="send"></i> telegram
+</a>
+
+<a class="button" href="https://discord.com/users/dobryaaaak" target="_blank">
+<i data-feather="message-circle"></i> discord
+</a>
+
+<a class="button" href="https://tiktok.com/@sigma.skibiditoilet.rizz" target="_blank">
+<i data-feather="video"></i> tiktok
+</a>
+
+<div class="theme-toggle" onclick="toggleTheme()">
+Toggle Theme
+</div>
 
 </div>
+
+<script>
+feather.replace();
+
+function toggleTheme(){
+  document.body.classList.toggle("light");
+}
+</script>
 
 </body>
 </html>
