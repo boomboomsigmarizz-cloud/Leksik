@@ -3,186 +3,214 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leksik</title>
+<title>leksik</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/feather-icons"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg:#0d0d0d;
-  --card:#1a1a1a;
-  --text:#ffffff;
-}
-
-.light{
-  --bg:#ffffff;
-  --card:#f2f2f2;
-  --text:#000000;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
 }
 
 body{
-  margin:0;
-  font-family:'Inter',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  overflow:hidden;
-  transition:0.4s;
+background:#000;
+color:#fff;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+overflow:hidden;
+transition:0.4s ease;
 }
 
-.bg-gif{
-  position:fixed;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  opacity:0.05;
-  z-index:-1;
+/* GIF BACKGROUND */
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:url("https://media.tenor.com/8QfR2z0mKpYAAAAC/black-and-white-glitch.gif") center/cover no-repeat;
+opacity:0.15;
+z-index:-1;
+filter:grayscale(100%);
+}
+
+/* LIGHT MODE */
+body.light{
+background:#fff;
+color:#000;
+}
+
+body.light::before{
+opacity:0.05;
 }
 
 .container{
-  text-align:center;
-  width:90%;
-  max-width:400px;
+width:95%;
+max-width:420px;
+padding:40px 25px;
+text-align:center;
+backdrop-filter:blur(20px);
+background:rgba(255,255,255,0.05);
+border-radius:20px;
+border:1px solid rgba(255,255,255,0.1);
+animation:fadeIn 1.2s ease;
+transition:0.4s;
+}
+
+body.light .container{
+background:rgba(0,0,0,0.05);
+border:1px solid rgba(0,0,0,0.1);
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(30px);}
+to{opacity:1; transform:translateY(0);}
 }
 
 h1{
-  font-size:42px;
-  margin-bottom:5px;
+font-size:34px;
+font-weight:800;
+letter-spacing:3px;
+margin-bottom:8px;
 }
 
 .subtitle{
-  opacity:0.6;
-  margin-bottom:30px;
+font-size:13px;
+opacity:0.6;
+margin-bottom:25px;
 }
 
-.button{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  background:var(--card);
-  padding:14px;
-  margin:10px 0;
-  border-radius:14px;
-  text-decoration:none;
-  color:var(--text);
-  font-weight:500;
-  transition:0.3s;
+.links{
+display:flex;
+flex-direction:column;
+gap:14px;
 }
 
-.button:hover{
-  transform:scale(1.05);
+.link{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+padding:14px;
+border-radius:14px;
+text-decoration:none;
+color:inherit;
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.1);
+transition:0.3s ease;
+transform:scale(1);
 }
 
-.theme-toggle{
-  margin-top:20px;
-  cursor:pointer;
-  opacity:0.7;
+.link:hover{
+transform:scale(1.05);
+background:rgba(255,255,255,0.15);
+box-shadow:0 0 20px rgba(255,255,255,0.2);
+}
+
+body.light .link{
+background:rgba(0,0,0,0.05);
+border:1px solid rgba(0,0,0,0.1);
+}
+
+.music{
+margin-top:30px;
+text-align:left;
+}
+
+.track{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:10px;
+margin-bottom:8px;
+background:rgba(255,255,255,0.05);
+border-radius:10px;
+cursor:pointer;
+transition:0.3s;
+font-size:13px;
+}
+
+.track:hover{
+background:rgba(255,255,255,0.15);
+}
+
+.note{
+margin-right:8px;
+}
+
+.toggle{
+margin-top:20px;
+font-size:12px;
+opacity:0.6;
+cursor:pointer;
+transition:0.3s;
+}
+
+.toggle:hover{
+opacity:1;
 }
 </style>
 </head>
-<body>
 
-<img class="bg-gif" src="https://media.tenor.com/3bTxZ8g0VwQAAAAC/glitch-black.gif">
+<body>
 
 <div class="container">
 
-<h1>Leksik</h1>
-<div class="subtitle">DLL Developer • VR • Game Modding</div>
+<h1>LEKSIK</h1>
+<div class="subtitle">Game modding • DLL • VR</div>
 
-<a class="button" href="https://guns.lol/leksik" target="_blank">
-<i data-feather="crosshair"></i> guns.lol
-</a>
-
-<a class="button" href="https://leksik.carrd.co/" target="_blank">
-<i data-feather="book"></i> bio
-</a>
-
-<a class="button" href="https://t.me/leksiktw" target="_blank">
-<i data-feather="send"></i> telegram
-</a>
-
-<a class="button" href="https://discord.com/users/dobryaaaak" target="_blank">
-<i data-feather="message-circle"></i> discord
-</a>
-
-<a class="button" href="https://tiktok.com/@sigma.skibiditoilet.rizz" target="_blank">
-<i data-feather="video"></i> tiktok
-</a>
-
-<div class="theme-toggle" onclick="toggleTheme()">
-Toggle Theme
+<div class="links">
+<a class="link" href="https://guns.lol/leksik" target="_blank">🔫 Guns</a>
+<a class="link" href="https://leksik.carrd.co/" target="_blank">📓 Bio</a>
+<a class="link" href="https://t.me/leksiktw" target="_blank">✈ Telegram</a>
+<a class="link" href="https://discord.com/users/dobryaaaak" target="_blank">💬 Discord</a>
+<a class="link" href="https://www.tiktok.com/@sigma.skibiditoilet.rizz" target="_blank">🎵 TikTok</a>
 </div>
 
+<div class="music">
+<div class="track" onclick="playMusic(0)">
+<span>🎼 Alex G - Track 1</span>
+<span>▶</span>
 </div>
+<div class="track" onclick="playMusic(1)">
+<span>🎼 Computer - Track 2</span>
+<span>▶</span>
+</div>
+<div class="track" onclick="playMusic(2)">
+<span>🎼 Electrophoresis</span>
+<span>▶</span>
+</div>
+</div>
+
+<div class="toggle" onclick="toggleTheme()">Switch theme</div>
+
+</div>
+
+<audio id="player"></audio>
 
 <script>
-feather.replace();
+const tracks = [
+"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+];
+
+function playMusic(index){
+const player = document.getElementById("player");
+player.src = tracks[index];
+player.play();
+}
 
 function toggleTheme(){
-  document.body.classList.toggle("light");
+document.body.classList.toggle("light");
 }
 </script>
 
-<div class="music-block">
-  <div class="music-title">♪ Music</div>
-
-  <iframe 
-    width="100%" 
-    height="80" 
-    scrolling="no" 
-    frameborder="no" 
-    allow="autoplay"
-    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/308480329&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false">
-  </iframe>
-
-  <iframe 
-    width="100%" 
-    height="80" 
-    scrolling="no" 
-    frameborder="no" 
-    allow="autoplay"
-    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/69451154&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false">
-  </iframe>
-
-  <iframe 
-    width="100%" 
-    height="80" 
-    scrolling="no" 
-    frameborder="no" 
-    allow="autoplay"
-    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/179045512&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false">
-  </iframe>
-</div>
-
-<style>
-.music-block {
-  width: 320px;
-  margin: 40px auto;
-  padding: 20px;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(15px);
-  border-radius: 20px;
-  text-align: center;
-  color: white;
-  box-shadow: 0 0 30px rgba(255,255,255,0.05);
-}
-
-.music-title {
-  margin-bottom: 15px;
-  font-size: 14px;
-  opacity: 0.7;
-}
-
-iframe {
-  margin-bottom: 10px;
-  border-radius: 12px;
-}
-</style>
-  
 </body>
 </html>
