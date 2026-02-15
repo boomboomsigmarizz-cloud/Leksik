@@ -1,137 +1,130 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html><html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Leksik</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet"><style>
 :root{
---bg:#0a0a0a;
---card:#111;
---text:#fff;
---muted:#9a9a9a;
+--bg:#0b0b0b;
+--card:#121212;
+--text:#ffffff;
+--muted:#a1a1a1;
 --accent:#ffffff;
+--glow:rgba(255,255,255,0.15);
+}
+
+body.light{
+--bg:#f4f4f4;
+--card:#ffffff;
+--text:#111;
+--muted:#555;
+--glow:rgba(0,0,0,0.12);
 }
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text)}
+body{background:var(--bg);color:var(--text);transition:.35s}
 
 /* NAVBAR */
 nav{
-position:fixed;
-top:0;left:0;width:100%;
-height:70px;
+position:fixed;top:0;left:0;width:100%;height:70px;
 display:flex;align-items:center;justify-content:space-between;
-padding:0 40px;
-background:rgba(10,10,10,.6);
-backdrop-filter:blur(10px);
-z-index:1000;
-}
-
-.logo{font-weight:800;font-size:22px;letter-spacing:2px}
-
-.navlinks{display:flex;gap:28px}
-.navlinks a{color:var(--muted);text-decoration:none;font-size:14px;transition:.25s}
-.navlinks a:hover{color:var(--text)}
+padding:0 30px;background:rgba(0,0,0,.45);backdrop-filter:blur(12px);z-index:1000}
+.logo{font-weight:800;font-size:22px;letter-spacing:3px}
+.navlinks{display:flex;gap:26px}
+.navlinks button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px}
+.navlinks button:hover{color:var(--text)}
 
 /* HERO */
-.hero{
-height:100vh;
-display:flex;align-items:center;justify-content:center;
-text-align:center;
-padding:0 20px;
-}
-
-.hero h1{
-font-size:clamp(38px,8vw,92px);
-font-weight:800;
-line-height:1.05;
-}
-
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 20px}
+.hero h1{font-size:clamp(42px,9vw,110px);font-weight:800;letter-spacing:-2px}
 .hero p{margin-top:18px;color:var(--muted)}
 
-.playbtn{
-margin-top:35px;
-padding:14px 28px;
-border-radius:40px;
-border:1px solid #333;
-background:#151515;
-color:white;
-cursor:pointer;
-transition:.25s;
-}
-.playbtn:hover{background:#222}
+.btns{margin-top:40px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.btn{
+padding:14px 28px;border-radius:40px;border:1px solid #2a2a2a;background:#161616;color:white;cursor:pointer;transition:.25s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 18px var(--glow)}
 
 /* SECTIONS */
-section{padding:110px 20px;max-width:1100px;margin:auto}
-.section-title{font-size:28px;margin-bottom:40px}
+section{padding:120px 20px;max-width:1100px;margin:auto}
+.section-title{font-size:30px;margin-bottom:40px}
+.card{background:var(--card);padding:26px;border-radius:20px;border:1px solid #202020;margin-bottom:22px;transition:.25s}
+.card:hover{transform:translateY(-5px);box-shadow:0 0 25px var(--glow)}
 
-.card{
-background:var(--card);
-padding:25px;
-border-radius:18px;
-border:1px solid #1c1c1c;
-margin-bottom:20px;
-transition:.25s;
-}
-.card:hover{transform:translateY(-4px);border-color:#333}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+
+/* CONTACT BUTTON CARDS */
+.contact{cursor:pointer;position:relative;overflow:hidden}
+.contact:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--x) var(--y),var(--glow),transparent 60%);opacity:0;transition:.2s}
+.contact:hover:after{opacity:1}
 
 /* FOOTER NAV */
-.bottom-nav{
-position:fixed;
-bottom:0;left:0;width:100%;
-background:rgba(10,10,10,.7);
-backdrop-filter:blur(10px);
-display:flex;justify-content:center;gap:40px;
-padding:14px 10px;
-}
+.bottom-nav{position:fixed;bottom:0;width:100%;display:flex;justify-content:center;gap:40px;padding:14px;background:rgba(0,0,0,.55);backdrop-filter:blur(12px)}
+.bottom-nav button{background:none;border:none;color:var(--muted);cursor:pointer}
+.bottom-nav button:hover{color:white}
 
-.bottom-nav a{color:var(--muted);text-decoration:none;font-size:13px}
-.bottom-nav a:hover{color:white}
-
-/* MOBILE */
 @media(max-width:700px){
-nav{padding:0 20px}
+.hero h1{font-size:48px}
 .navlinks{display:none}
-.hero h1{font-size:42px}
 }
-</style></head><body><nav>
+</style></head>
+<body><nav>
 <div class="logo">LX</div>
 <div class="navlinks">
-<a href="#about">About</a>
-<a href="#projects">Projects</a>
-<a href="#contacts">Contacts</a>
+<button onclick="scrollToId('about')">About</button>
+<button onclick="scrollToId('projects')">Projects</button>
+<button onclick="scrollToId('contacts')">Contacts</button>
+<button onclick="toggleTheme()">Theme</button>
 </div>
 </nav><div class="hero">
 <div>
 <h1>Calm is always here</h1>
-<p>DLL Developer • Modding • Reverse Engineering</p>
-<button class="playbtn" onclick="toggleMusic()">Play Music</button>
+<p>DLL Developer • Reverse Engineering • Modding • Tools</p>
+<div class="btns">
+<button class="btn" onclick="toggleMusic()">Play Music</button>
+<button class="btn" onclick="scrollToId('about')">Explore</button>
+</div>
 </div>
 </div><section id="about">
 <div class="section-title">About me</div>
-<div class="card">I create mods, tools and custom software. Focused on minimalism and performance.</div>
+<div class="card">I build mods, external tools, custom loaders and experimental software. Focus on performance, minimal UI and clean logic. Interested in reversing, memory interaction and low level behaviour.</div>
+<div class="card">I also design personal utilities and launchers, experiment with UX and automation. Prefer lightweight fast solutions over heavy frameworks.</div>
 </section><section id="projects">
 <div class="section-title">Projects</div>
+<div class="grid">
 <div class="card">Game modifications</div>
 <div class="card">Custom launchers</div>
-<div class="card">Reverse engineering tools</div>
+<div class="card">Reverse engineering utilities</div>
+<div class="card">Automation tools</div>
+</div>
 </section><section id="contacts">
 <div class="section-title">Contacts</div>
-<div class="card">Telegram — https://t.me/leksiktw</div>
-<div class="card">Discord — @dobryaaaak</div>
-<div class="card">TikTok — sigma.skibiditoilet.rizz</div>
-<div class="card">Bio — leksik.carrd.co</div>
+<div class="grid">
+<div class="card contact" onclick="go('https://t.me/leksiktw')">Telegram</div>
+<div class="card contact" onclick="go('https://discord.com/users/dobryaaaak')">Discord</div>
+<div class="card contact" onclick="go('https://www.tiktok.com/@sigma.skibiditoilet.rizz')">TikTok</div>
+<div class="card contact" onclick="go('https://leksik.carrd.co')">Bio</div>
+<div class="card contact" onclick="go('https://guns.lol/leksik')">Guns.lol</div>
+</div>
 </section><div class="bottom-nav">
-<a href="#about">About</a>
-<a href="#projects">Projects</a>
-<a href="#contacts">Contacts</a>
+<button onclick="scrollToId('about')">About</button>
+<button onclick="scrollToId('projects')">Projects</button>
+<button onclick="scrollToId('contacts')">Contacts</button>
 </div><audio id="music" src="alex.mp3"></audio>
 
 <script>
 const music=document.getElementById('music');
-function toggleMusic(){
-if(music.paused) music.play(); else music.pause();
-}
+function toggleMusic(){music.paused?music.play():music.pause()}
+function toggleTheme(){document.body.classList.toggle('light')}
+function scrollToId(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+function go(url){window.location.href=url}
+
+/* glow cursor */
+document.querySelectorAll('.contact').forEach(card=>{
+card.addEventListener('mousemove',e=>{
+const r=card.getBoundingClientRect();
+card.style.setProperty('--x',e.clientX-r.left+'px');
+card.style.setProperty('--y',e.clientY-r.top+'px');
+})})
 </script></body>
 </html>
