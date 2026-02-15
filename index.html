@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Leksik</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
 <style>
 :root{
 --bg:#0b0b0b;
@@ -15,47 +16,91 @@
 --accent:#ffffff;
 --glow:rgba(255,255,255,.25);
 }
+
 body.light{
 --bg:#f4f4f4;
 --card:#ffffff;
---text:#111111;
+--text:#111;
 --muted:#555;
 --accent:#000;
 --glow:rgba(0,0,0,.25);
 }
+
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);transition:.35s}
 
+/* LIVE BACKGROUND */
+#bg{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
+background:var(--bg);
+}
+
+/* NAVBAR */
 nav{
 position:fixed;top:0;width:100%;height:70px;
 display:flex;align-items:center;justify-content:space-between;
-padding:0 40px;background:rgba(0,0,0,.5);backdrop-filter:blur(10px);z-index:999}
+padding:0 40px;background:rgba(0,0,0,.5);
+backdrop-filter:blur(10px);z-index:999}
+
 .logo{font-weight:800;font-size:22px;letter-spacing:3px}
 .navlinks{display:flex;gap:28px}
 .navlinks a{color:var(--muted);text-decoration:none;font-size:14px;transition:.25s}
 .navlinks a:hover{color:var(--text)}
 
-.theme-btn{cursor:pointer;border:1px solid #333;padding:8px 14px;border-radius:30px;background:transparent;color:var(--text)}
+.theme-btn{
+cursor:pointer;border:1px solid #333;
+padding:8px 14px;border-radius:30px;
+background:transparent;color:var(--text);
+}
 
-.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 20px}
+/* HERO */
+.hero{
+height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 20px}
 .hero h1{font-size:clamp(40px,8vw,100px);font-weight:800;line-height:1.05}
 .hero p{margin-top:20px;color:var(--muted)}
-.playbtn{margin-top:40px;padding:14px 30px;border-radius:40px;border:1px solid #333;background:var(--card);color:var(--text);cursor:pointer;transition:.25s}
+
+.playbtn{
+margin-top:40px;padding:14px 30px;border-radius:40px;
+border:1px solid #333;background:var(--card);
+color:var(--text);cursor:pointer;transition:.25s}
 .playbtn:hover{box-shadow:0 0 25px var(--glow);transform:translateY(-2px)}
 
+/* SECTIONS */
 section{padding:120px 20px;max-width:1100px;margin:auto}
 .section-title{font-size:32px;margin-bottom:40px}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
-.card{background:var(--card);padding:25px;border-radius:18px;border:1px solid #1e1e1e;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
-.card:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--x) var(--y),var(--glow),transparent 40%);opacity:0;transition:.25s}
-.card:hover:before
+
+.card{
+background:var(--card);padding:25px;border-radius:18px;
+border:1px solid #1e1e1e;cursor:pointer;transition:.25s;
+position:relative;overflow:hidden}
+
+.card:before{
+content:"";
+position:absolute;inset:0;
+background:radial-gradient(circle at var(--x) var(--y),var(--glow),transparent 40%);
+opacity:0;transition:.25s}
+
+.card:hover:before{opacity:1}
 .card:hover{transform:translateY(-6px);border-color:#444}
+
 .card h3{margin-bottom:8px}
 .card p{color:var(--muted);font-size:14px}
 
-.bottom-nav{position:fixed;bottom:0;width:100%;background:rgba(0,0,0,.6);backdrop-filter:blur(10px);display:flex;justify-content:center;gap:50px;padding:14px 10px}
+/* BOTTOM NAV */
+.bottom-nav{
+position:fixed;bottom:0;width:100%;
+background:rgba(0,0,0,.6);
+backdrop-filter:blur(10px);
+display:flex;justify-content:center;gap:50px;padding:14px 10px}
+
 .bottom-nav div{color:var(--muted);cursor:pointer}
 .bottom-nav div:hover{color:var(--text)}
 
@@ -63,10 +108,14 @@ section{padding:120px 20px;max-width:1100px;margin:auto}
 nav{padding:0 20px}
 .navlinks{display:none}
 .hero h1{font-size:44px}
-} </style>
-
+}
+</style>
 </head>
+
 <body>
+
+<canvas id="bg"></canvas>
+
 <nav>
 <div class="logo">LX</div>
 <div class="navlinks">
@@ -90,8 +139,8 @@ nav{padding:0 20px}
 <div class="grid">
 <div class="card"><h3>Developer</h3><p>I write software, injectors and launchers focused on performance and simplicity.</p></div>
 <div class="card"><h3>Modding</h3><p>Creating game modifications and internal tools.</p></div>
-<div class="card"><h3>Design</h3><p>Minimalistic UI/UX with smooth animations and clean structure.</p></div>
-<div class="card"><h3>Philosophy</h3><p>Fast, simple and comfortable software over bloated solutions.</p></div>
+<div class="card"><h3>Design</h3><p>Minimalistic UI/UX with smooth animations.</p></div>
+<div class="card"><h3>Philosophy</h3><p>Fast and clean software over bloated solutions.</p></div>
 </div>
 </section>
 
@@ -138,6 +187,51 @@ card.style.setProperty('--x',(e.clientX-r.left)+'px');
 card.style.setProperty('--y',(e.clientY-r.top)+'px');
 });
 });
+
+/* LIVE PARTICLES BACKGROUND */
+const canvas=document.getElementById("bg");
+const ctx=canvas.getContext("2d");
+
+let particles=[];
+const amount=70;
+
+function resize(){
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+}
+window.addEventListener("resize",resize);
+resize();
+
+class Particle{
+constructor(){this.reset();}
+reset(){
+this.x=Math.random()*canvas.width;
+this.y=Math.random()*canvas.height;
+this.vx=(Math.random()-0.5)*0.3;
+this.vy=(Math.random()-0.5)*0.3;
+this.size=Math.random()*1.8+0.2;
+}
+move(){
+this.x+=this.vx;
+this.y+=this.vy;
+if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height) this.reset();
+}
+draw(){
+ctx.beginPath();
+ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+ctx.fillStyle=document.body.classList.contains("light")?"rgba(0,0,0,.25)":"rgba(255,255,255,.25)";
+ctx.fill();
+}
+}
+
+for(let i=0;i<amount;i++)particles.push(new Particle());
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+particles.forEach(p=>{p.move();p.draw();});
+requestAnimationFrame(animate);
+}
+animate();
 </script>
 
 </body>
