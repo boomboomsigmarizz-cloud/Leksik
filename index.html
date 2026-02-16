@@ -30,18 +30,9 @@ body.light{
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);transition:.35s}
 
-/* LIVE BACKGROUND */
-#bg{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-1;
-background:var(--bg);
-}
+#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1}
 
-/* NAVBAR */
+/* NAV */
 nav{
 position:fixed;top:0;width:100%;height:70px;
 display:flex;align-items:center;justify-content:space-between;
@@ -50,49 +41,63 @@ backdrop-filter:blur(10px);z-index:999}
 
 .logo{font-weight:800;font-size:22px;letter-spacing:3px}
 .navlinks{display:flex;gap:28px}
-.navlinks a{color:var(--muted);text-decoration:none;font-size:14px;transition:.25s}
+.navlinks a{color:var(--muted);text-decoration:none;font-size:14px}
 .navlinks a:hover{color:var(--text)}
 
-.theme-btn{
-cursor:pointer;border:1px solid #333;
-padding:8px 14px;border-radius:30px;
-background:transparent;color:var(--text);
-}
+.theme-btn{cursor:pointer;border:1px solid #333;padding:8px 14px;border-radius:30px;background:transparent;color:var(--text)}
 
 /* HERO */
-.hero{
-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 20px}
-.hero h1{font-size:clamp(40px,8vw,100px);font-weight:800;line-height:1.05}
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center}
+.hero h1{font-size:clamp(40px,8vw,100px);font-weight:800}
 .hero p{margin-top:20px;color:var(--muted)}
 
-.playbtn{
-margin-top:40px;padding:14px 30px;border-radius:40px;
-border:1px solid #333;background:var(--card);
-color:var(--text);cursor:pointer;transition:.25s}
+.playbtn{margin-top:40px;padding:14px 30px;border-radius:40px;border:1px solid #333;background:var(--card);cursor:pointer}
 .playbtn:hover{box-shadow:0 0 25px var(--glow);transform:translateY(-2px)}
 
 /* SECTIONS */
-section{padding:120px 20px;max-width:1100px;margin:auto}
+section{padding:120px 20px;max-width:1200px;margin:auto}
 .section-title{font-size:32px;margin-bottom:40px}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
 
 .card{
 background:var(--card);padding:25px;border-radius:18px;
-border:1px solid #1e1e1e;cursor:pointer;transition:.25s;
-position:relative;overflow:hidden}
-
-.card:before{
-content:"";
-position:absolute;inset:0;
-background:radial-gradient(circle at var(--x) var(--y),var(--glow),transparent 40%);
-opacity:0;transition:.25s}
-
-.card:hover:before{opacity:1}
+border:1px solid #1e1e1e;transition:.25s;
+}
 .card:hover{transform:translateY(-6px);border-color:#444}
-
-.card h3{margin-bottom:8px}
 .card p{color:var(--muted);font-size:14px}
+
+/* IMAGE GALLERY */
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:18px;
+}
+
+.gallery img{
+width:100%;
+border-radius:16px;
+transition:.35s;
+cursor:pointer;
+border:1px solid #222;
+}
+.gallery img:hover{
+transform:scale(1.05);
+box-shadow:0 0 25px var(--glow);
+}
+
+/* GIF STRIP */
+.gifstrip{
+display:flex;
+gap:20px;
+overflow-x:auto;
+padding-bottom:10px;
+}
+.gifstrip img{
+height:180px;
+border-radius:16px;
+border:1px solid #222;
+}
 
 /* BOTTOM NAV */
 .bottom-nav{
@@ -103,24 +108,18 @@ display:flex;justify-content:center;gap:50px;padding:14px 10px}
 
 .bottom-nav div{color:var(--muted);cursor:pointer}
 .bottom-nav div:hover{color:var(--text)}
-
-@media(max-width:700px){
-nav{padding:0 20px}
-.navlinks{display:none}
-.hero h1{font-size:44px}
-}
 </style>
 </head>
 
 <body>
-
 <canvas id="bg"></canvas>
 
 <nav>
 <div class="logo">LX</div>
 <div class="navlinks">
 <a href="#about">About</a>
-<a href="#projects">Projects</a>
+<a href="#gaming">Gaming</a>
+<a href="#photos">Photos</a>
 <a href="#contacts">Contacts</a>
 </div>
 <button class="theme-btn" onclick="toggleTheme()">Theme</button>
@@ -129,7 +128,7 @@ nav{padding:0 20px}
 <div class="hero">
 <div>
 <h1>Calm is always here</h1>
-<p>DLL Developer • Reverse Engineering • Game Modding • Custom Tools</p>
+<p>DLL Developer • Reverse Engineering • Game Modding • VR Player</p>
 <button class="playbtn" onclick="toggleMusic()">Play Music</button>
 </div>
 </div>
@@ -137,20 +136,43 @@ nav{padding:0 20px}
 <section id="about">
 <div class="section-title">About me</div>
 <div class="grid">
-<div class="card"><h3>Developer</h3><p>I write software, injectors and launchers focused on performance and simplicity.</p></div>
-<div class="card"><h3>Modding</h3><p>Creating game modifications and internal tools.</p></div>
-<div class="card"><h3>Design</h3><p>Minimalistic UI/UX with smooth animations.</p></div>
-<div class="card"><h3>Philosophy</h3><p>Fast and clean software over bloated solutions.</p></div>
+<div class="card"><h3>Developer</h3><p>Injectors, tools and custom software</p></div>
+<div class="card"><h3>Modding</h3><p>Game modifications and internal systems</p></div>
+<div class="card"><h3>Design</h3><p>Minimalistic UI/UX</p></div>
+<div class="card"><h3>Philosophy</h3><p>Fast & clean software</p></div>
+<div class="card"><h3>VR Player</h3><p>Playing VR since 2021</p></div>
+<div class="card"><h3>Competitive</h3><p>High skill mechanics & consistency</p></div>
 </div>
 </section>
 
-<section id="projects">
-<div class="section-title">Projects</div>
+<section id="gaming">
+<div class="section-title">Gaming Profile</div>
 <div class="grid">
-<div class="card"><h3>Game Mods</h3><p>Internal & external modifications</p></div>
-<div class="card"><h3>Launchers</h3><p>Custom lightweight launchers</p></div>
-<div class="card"><h3>DLL Tools</h3><p>Injectors and debugging helpers</p></div>
-<div class="card"><h3>Automation</h3><p>Utility scripts & helpers</p></div>
+<div class="card"><h3>Rec Room</h3><p>S+ ranks and long term progression</p></div>
+<div class="card"><h3>Dodgeball</h3><p>Reaction & prediction gameplay</p></div>
+<div class="card"><h3>Parkour</h3><p>Advanced movement control</p></div>
+<div class="card"><h3>Sandbox</h3><p>Building and experimenting</p></div>
+</div>
+</section>
+
+<section id="photos">
+<div class="section-title">Rec Room Photos</div>
+
+<div class="gallery">
+<img src="https://rec.net/image/568259407">
+<img src="https://rec.net/image/708850050">
+<img src="https://rec.net/image/798235273">
+<img src="https://rec.net/image/796949706">
+<img src="https://rec.net/image/752560831">
+<img src="https://rec.net/image/773641734">
+</div>
+
+<h2 style="margin-top:70px;margin-bottom:20px">Vibe</h2>
+<div class="gifstrip">
+<img src="https://media.tenor.com/o7o8bJk7z0QAAAAd/anime-night.gif">
+<img src="https://media.tenor.com/f7G4Y7y4y6cAAAAd/matrix-code.gif">
+<img src="https://media.tenor.com/2uyENRmiUt0AAAAd/vr.gif">
+<img src="https://media.tenor.com/XsL7b7X6WmUAAAAd/anime-rain.gif">
 </div>
 </section>
 
@@ -159,15 +181,16 @@ nav{padding:0 20px}
 <div class="grid">
 <div class="card" onclick="go('https://t.me/leksiktw')"><h3>Telegram</h3><p>@leksiktw</p></div>
 <div class="card" onclick="go('https://discord.com/users/dobryaaaak')"><h3>Discord</h3><p>@dobryaaaak</p></div>
-<div class="card" onclick="go('https://www.tiktok.com/@sigma.skibiditoilet.rizz')"><h3>TikTok</h3><p>sigma.skibiditoilet.rizz</p></div>
-<div class="card" onclick="go('https://leksik.carrd.co')"><h3>Bio</h3><p>Profile page</p></div>
-<div class="card" onclick="go('https://guns.lol/leksik')"><h3>Guns.lol</h3><p>Main profile</p></div>
+<div class="card" onclick="go('https://guns.lol/leksik')"><h3>Profile</h3><p>Main page</p></div>
+<div class="card" onclick="go('https://www.roblox.com/users/profile?username=hggvme')"><h3>Roblox</h3><p>hggvme</p></div>
+<div class="card" onclick="go('https://rec.net/user/leksik.leo')"><h3>Rec Room</h3><p>@leksik.leo</p></div>
 </div>
 </section>
 
 <div class="bottom-nav">
 <div onclick="scrollToSection('about')">About</div>
-<div onclick="scrollToSection('projects')">Projects</div>
+<div onclick="scrollToSection('gaming')">Gaming</div>
+<div onclick="scrollToSection('photos')">Photos</div>
 <div onclick="scrollToSection('contacts')">Contacts</div>
 </div>
 
@@ -180,59 +203,94 @@ function toggleTheme(){document.body.classList.toggle('light');}
 function go(url){window.location.href=url}
 function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
 
-document.querySelectorAll('.card').forEach(card=>{
-card.addEventListener('mousemove',e=>{
-const r=card.getBoundingClientRect();
-card.style.setProperty('--x',(e.clientX-r.left)+'px');
-card.style.setProperty('--y',(e.clientY-r.top)+'px');
-});
-});
-
-/* LIVE PARTICLES BACKGROUND */
+/* PARTICLES */
 const canvas=document.getElementById("bg");
 const ctx=canvas.getContext("2d");
-
 let particles=[];
-const amount=70;
 
-function resize(){
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-}
-window.addEventListener("resize",resize);
-resize();
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
+window.onresize=resize;resize();
 
-class Particle{
-constructor(){this.reset();}
-reset(){
-this.x=Math.random()*canvas.width;
-this.y=Math.random()*canvas.height;
-this.vx=(Math.random()-0.5)*0.3;
-this.vy=(Math.random()-0.5)*0.3;
-this.size=Math.random()*1.8+0.2;
-}
-move(){
-this.x+=this.vx;
-this.y+=this.vy;
-if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height) this.reset();
-}
-draw(){
-ctx.beginPath();
-ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
-ctx.fillStyle=document.body.classList.contains("light")?"rgba(0,0,0,.25)":"rgba(255,255,255,.25)";
-ctx.fill();
-}
+class P{
+constructor(){this.reset()}
+reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.vx=(Math.random()-.5)*.3;this.vy=(Math.random()-.5)*.3;this.s=Math.random()*1.8+.2}
+move(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height)this.reset()}
+draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.s,0,6.28);ctx.fillStyle="rgba(255,255,255,.25)";ctx.fill()}
 }
 
-for(let i=0;i<amount;i++)particles.push(new Particle());
+for(let i=0;i<70;i++)particles.push(new P());
 
-function animate(){
+function anim(){
 ctx.clearRect(0,0,canvas.width,canvas.height);
-particles.forEach(p=>{p.move();p.draw();});
-requestAnimationFrame(animate);
+particles.forEach(p=>{
+    p.move();
+    p.draw();
+});
+requestAnimationFrame(anim);
 }
-animate();
-</script>
+anim();
 
+/* ===== FADE LOAD ===== */
+window.addEventListener("load",()=>{
+document.body.style.opacity="0";
+document.body.style.transition="opacity .6s ease";
+setTimeout(()=>document.body.style.opacity="1",50);
+});
+
+/* ===== ACTIVE NAV ===== */
+const sections=document.querySelectorAll("section");
+const navLinks=document.querySelectorAll(".navlinks a, .bottom-nav div");
+
+window.addEventListener("scroll",()=>{
+let current="";
+sections.forEach(sec=>{
+const top=window.scrollY;
+const offset=sec.offsetTop-200;
+const height=sec.offsetHeight;
+if(top>=offset && top<offset+height){
+current=sec.getAttribute("id");
+}
+});
+
+navLinks.forEach(link=>{
+link.style.color="var(--muted)";
+if(link.getAttribute("href")==="#"+current || link.getAttribute("onclick")?.includes(current)){
+link.style.color="var(--text)";
+}
+});
+});
+
+/* ===== CARD RIPPLE ===== */
+document.querySelectorAll(".card").forEach(card=>{
+card.addEventListener("click",e=>{
+const ripple=document.createElement("span");
+ripple.style.position="absolute";
+ripple.style.width="10px";
+ripple.style.height="10px";
+ripple.style.borderRadius="50%";
+ripple.style.background="rgba(255,255,255,.35)";
+ripple.style.left=e.offsetX+"px";
+ripple.style.top=e.offsetY+"px";
+ripple.style.transform="scale(0)";
+ripple.style.pointerEvents="none";
+ripple.style.transition="transform .6s, opacity .6s";
+card.appendChild(ripple);
+
+setTimeout(()=>{
+ripple.style.transform="scale(40)";
+ripple.style.opacity="0";
+},10);
+
+setTimeout(()=>ripple.remove(),600);
+});
+});
+
+/* ===== AUTO PAUSE MUSIC ===== */
+document.addEventListener("visibilitychange",()=>{
+if(document.hidden && !music.paused){
+music.pause();
+}
+});
+</script>
 </body>
 </html>
