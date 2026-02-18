@@ -1,292 +1,296 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LX Project</title>
+<title>Leksik</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
-    --bg:#0a0a0f;
-    --bg2:#111118;
-    --text:#ffffff;
-    --accent:#8b5cf6;
-    --glass:rgba(255,255,255,0.05);
-    --blur:blur(20px);
+--bg:#0b0b0b;
+--card:#121212;
+--text:#ffffff;
+--muted:#9f9f9f;
+--accent:#ffffff;
+--glow:rgba(255,255,255,.25);
 }
 
-.light{
-    --bg:#f2f2f7;
-    --bg2:#ffffff;
-    --text:#111;
-    --accent:#6d28d9;
-    --glass:rgba(0,0,0,0.05);
+body.light{
+--bg:#f4f4f4;
+--card:#ffffff;
+--text:#111;
+--muted:#555;
+--accent:#000;
+--glow:rgba(0,0,0,.25);
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Inter',sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);transition:.35s}
 
-body{
-    background:var(--bg);
-    color:var(--text);
-    overflow-x:hidden;
-    transition:0.4s ease;
-}
+#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1}
 
-/* ===== Cursor Glow ===== */
-.cursor{
-    position:fixed;
-    width:300px;
-    height:300px;
-    background:radial-gradient(circle, var(--accent) 0%, transparent 60%);
-    pointer-events:none;
-    mix-blend-mode:screen;
-    opacity:.15;
-    transform:translate(-50%,-50%);
-    z-index:0;
-}
-
-/* ===== Navbar ===== */
+/* NAV */
 nav{
-    position:fixed;
-    top:0;
-    width:100%;
-    padding:20px 50px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    backdrop-filter:var(--blur);
-    background:var(--glass);
-    z-index:100;
-}
+position:fixed;top:0;width:100%;height:70px;
+display:flex;align-items:center;justify-content:space-between;
+padding:0 40px;background:rgba(0,0,0,.5);
+backdrop-filter:blur(10px);z-index:999}
 
-.logo{
-    font-weight:800;
-    font-size:20px;
-    letter-spacing:2px;
-    cursor:pointer;
-    transition:0.3s;
-}
+.logo{font-weight:800;font-size:22px;letter-spacing:3px}
+.navlinks{display:flex;gap:28px}
+.navlinks a{color:var(--muted);text-decoration:none;font-size:14px}
+.navlinks a:hover{color:var(--text)}
 
-.logo:hover{
-    text-shadow:0 0 20px var(--accent);
-}
+.theme-btn{cursor:pointer;border:1px solid #333;padding:8px 14px;border-radius:30px;background:transparent;color:var(--text)}
 
-.links{
-    display:flex;
-    gap:30px;
-}
+/* HERO */
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center}
+.hero h1{font-size:clamp(40px,8vw,100px);font-weight:800}
+.hero p{margin-top:20px;color:var(--muted)}
 
-.links a{
-    text-decoration:none;
-    color:var(--text);
-    position:relative;
-    font-weight:500;
-}
+.playbtn{margin-top:40px;padding:14px 30px;border-radius:40px;border:1px solid #333;background:var(--card);cursor:pointer}
+.playbtn:hover{box-shadow:0 0 25px var(--glow);transform:translateY(-2px)}
 
-.links a::after{
-    content:"";
-    position:absolute;
-    left:0;
-    bottom:-5px;
-    width:0;
-    height:2px;
-    background:var(--accent);
-    transition:0.3s;
-}
+/* SECTIONS */
+section{padding:120px 20px;max-width:1200px;margin:auto}
+.section-title{font-size:32px;margin-bottom:40px}
 
-.links a:hover::after{
-    width:100%;
-}
-
-.theme-toggle{
-    cursor:pointer;
-    font-size:18px;
-}
-
-/* ===== Hero ===== */
-.hero{
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-}
-
-.hero h1{
-    font-size:70px;
-    font-weight:800;
-    letter-spacing:5px;
-    background:linear-gradient(90deg,var(--accent),#fff);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    animation:fadeUp 1s ease;
-}
-
-.hero p{
-    margin-top:20px;
-    font-size:18px;
-    opacity:.6;
-    animation:fadeUp 1.5s ease;
-}
-
-@keyframes fadeUp{
-    from{opacity:0; transform:translateY(40px);}
-    to{opacity:1; transform:translateY(0);}
-}
-
-/* ===== Sections ===== */
-section{
-    padding:100px 10%;
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
 
 .card{
-    background:var(--glass);
-    backdrop-filter:var(--blur);
-    padding:40px;
-    border-radius:20px;
-    transition:0.3s;
-    margin-top:30px;
+background:var(--card);padding:25px;border-radius:18px;
+border:1px solid #1e1e1e;transition:.25s;
+}
+.card:hover{transform:translateY(-6px);border-color:#444}
+.card p{color:var(--muted);font-size:14px}
+
+/* IMAGE GALLERY */
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:18px;
 }
 
-.card:hover{
-    box-shadow:0 0 40px rgba(139,92,246,.4);
-    transform:translateY(-5px);
+.gallery img{
+width:100%;
+border-radius:16px;
+transition:.35s;
+cursor:pointer;
+border:1px solid #222;
+}
+.gallery img:hover{
+transform:scale(1.05);
+box-shadow:0 0 25px var(--glow);
 }
 
-/* ===== Music Player ===== */
-.player{
-    position:fixed;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    width:400px;
-    background:var(--glass);
-    backdrop-filter:var(--blur);
-    padding:15px 25px;
-    border-radius:50px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    z-index:200;
+/* GIF STRIP */
+.gifstrip{
+display:flex;
+gap:20px;
+overflow-x:auto;
+padding-bottom:10px;
+}
+.gifstrip img{
+height:180px;
+border-radius:16px;
+border:1px solid #222;
 }
 
-.player button{
-    background:none;
-    border:none;
-    color:var(--text);
-    font-size:18px;
-    cursor:pointer;
-}
+/* BOTTOM NAV */
+.bottom-nav{
+position:fixed;bottom:0;width:100%;
+background:rgba(0,0,0,.6);
+backdrop-filter:blur(10px);
+display:flex;justify-content:center;gap:50px;padding:14px 10px}
 
-.progress{
-    flex:1;
-    margin:0 15px;
-}
-
-.progress input{
-    width:100%;
-}
-
-/* ===== Scroll Smooth ===== */
-html{
-    scroll-behavior:smooth;
-}
-
+.bottom-nav div{color:var(--muted);cursor:pointer}
+.bottom-nav div:hover{color:var(--text)}
 </style>
 </head>
 
 <body>
-
-<div class="cursor" id="cursor"></div>
+<canvas id="bg"></canvas>
 
 <nav>
-    <div class="logo" onclick="window.scrollTo(0,0)">LX</div>
-
-    <div class="links">
-        <a href="#releases">Releases</a>
-        <a href="#links">Links</a>
-        <a href="#music">Music</a>
-    </div>
-
-    <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
+<div class="logo">LX</div>
+<div class="navlinks">
+<a href="#about">About</a>
+<a href="#gaming">Gaming</a>
+<a href="#photos">Photos</a>
+<a href="#contacts">Contacts</a>
+</div>
+<button class="theme-btn" onclick="toggleTheme()">Theme</button>
 </nav>
 
 <div class="hero">
-    <h1>LX PROJECT</h1>
-    <p>Independent Digital Platform</p>
+<div>
+<h1>Calm is always here</h1>
+<p>DLL Developer • Reverse Engineering • Game Modding • VR Player</p>
+<button class="playbtn" onclick="toggleMusic()">Play Music</button>
+</div>
 </div>
 
-<section id="releases">
-    <h2>Releases</h2>
-    <div class="card">
-        Все проекты 1–20 марта — скоро.
-    </div>
+<section id="about">
+<div class="section-title">About me</div>
+<div class="grid">
+<div class="card"><h3>Developer</h3><p>Injectors, tools and custom software</p></div>
+<div class="card"><h3>Modding</h3><p>Game modifications and internal systems</p></div>
+<div class="card"><h3>Design</h3><p>Minimalistic UI/UX</p></div>
+<div class="card"><h3>Philosophy</h3><p>Fast & clean software</p></div>
+<div class="card"><h3>VR Player</h3><p>Playing VR since 2021</p></div>
+<div class="card"><h3>Competitive</h3><p>High skill mechanics & consistency</p></div>
+</div>
 </section>
 
-<section id="links">
-    <h2>Links</h2>
-    <div class="card">
-        <p><a href="https://guns.lol/leksik" target="_blank">guns.lol/leksik</a></p>
-        <p><a href="https://leksik.carrd.co/" target="_blank">leksik.carrd.co</a></p>
-        <p><a href="https://tiktok.com/@sigma.skibiditoilet.rizz" target="_blank">tiktok</a></p>
-    </div>
+<section id="gaming">
+<div class="section-title">Gaming Profile</div>
+<div class="grid">
+<div class="card"><h3>Rec Room</h3><p>S+ ranks and long term progression</p></div>
+<div class="card"><h3>Dodgeball</h3><p>Reaction & prediction gameplay</p></div>
+<div class="card"><h3>Parkour</h3><p>Advanced movement control</p></div>
+<div class="card"><h3>Sandbox</h3><p>Building and experimenting</p></div>
+</div>
 </section>
 
-<section id="music">
-    <h2>Music</h2>
-    <div class="card">
-        Track: Alex
-    </div>
-</section>
+<section id="photos">
+<div class="section-title">Rec Room Photos</div>
 
-<div class="player">
-    <button onclick="togglePlay()">▶</button>
-    <div class="progress">
-        <input type="range" id="progress" value="0">
-    </div>
-    <button onclick="audio.volume+=0.1">+</button>
+<div class="gallery">
+<img src="https://rec.net/image/568259407">
+<img src="https://rec.net/image/708850050">
+<img src="https://rec.net/image/798235273">
+<img src="https://rec.net/image/796949706">
+<img src="https://rec.net/image/752560831">
+<img src="https://rec.net/image/773641734">
 </div>
 
-<audio id="audio" src="alex.mp3"></audio>
+<h2 style="margin-top:70px;margin-bottom:20px">Vibe</h2>
+<div class="gifstrip">
+<img src="https://media.tenor.com/o7o8bJk7z0QAAAAd/anime-night.gif">
+<img src="https://media.tenor.com/f7G4Y7y4y6cAAAAd/matrix-code.gif">
+<img src="https://media.tenor.com/2uyENRmiUt0AAAAd/vr.gif">
+<img src="https://media.tenor.com/XsL7b7X6WmUAAAAd/anime-rain.gif">
+</div>
+</section>
+
+<section id="contacts">
+<div class="section-title">Contacts</div>
+<div class="grid">
+<div class="card" onclick="go('https://t.me/leksiktw')"><h3>Telegram</h3><p>@leksiktw</p></div>
+<div class="card" onclick="go('https://discord.com/users/dobryaaaak')"><h3>Discord</h3><p>@dobryaaaak</p></div>
+<div class="card" onclick="go('https://guns.lol/leksik')"><h3>Profile</h3><p>Main page</p></div>
+<div class="card" onclick="go('https://www.roblox.com/users/profile?username=hggvme')"><h3>Roblox</h3><p>hggvme</p></div>
+<div class="card" onclick="go('https://rec.net/user/leksik.leo')"><h3>Rec Room</h3><p>@leksik.leo</p></div>
+</div>
+</section>
+
+<div class="bottom-nav">
+<div onclick="scrollToSection('about')">About</div>
+<div onclick="scrollToSection('gaming')">Gaming</div>
+<div onclick="scrollToSection('photos')">Photos</div>
+<div onclick="scrollToSection('contacts')">Contacts</div>
+</div>
+
+<audio id="music" src="alex.mp3"></audio>
 
 <script>
-const cursor=document.getElementById("cursor");
-document.addEventListener("mousemove",e=>{
-    cursor.style.left=e.clientX+"px";
-    cursor.style.top=e.clientY+"px";
-});
+const music=document.getElementById('music');
+function toggleMusic(){music.paused?music.play():music.pause();}
+function toggleTheme(){document.body.classList.toggle('light');}
+function go(url){window.location.href=url}
+function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
 
-function toggleTheme(){
-    document.body.classList.toggle("light");
+/* PARTICLES */
+const canvas=document.getElementById("bg");
+const ctx=canvas.getContext("2d");
+let particles=[];
+
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
+window.onresize=resize;resize();
+
+class P{
+constructor(){this.reset()}
+reset(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.vx=(Math.random()-.5)*.3;this.vy=(Math.random()-.5)*.3;this.s=Math.random()*1.8+.2}
+move(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height)this.reset()}
+draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.s,0,6.28);ctx.fillStyle="rgba(255,255,255,.25)";ctx.fill()}
 }
 
-const audio=document.getElementById("audio");
-const progress=document.getElementById("progress");
+for(let i=0;i<70;i++)rticles.push(new P());
 
-function togglePlay(){
-    if(audio.paused){
-        audio.play();
-    }else{
-        audio.pause();
-    }
+function anim(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+particles.forEach(p=>{
+    p.move();
+    p.draw();
+});
+requestAnimationFrame(anim);
 }
+anim();
 
-audio.addEventListener("timeupdate",()=>{
-    progress.value=(audio.currentTime/audio.duration)*100;
+/* ===== FADE LOAD ===== */
+window.addEventListener("load",()=>{
+document.body.style.opacity="0";
+document.body.style.transition="opacity .6s ease";
+setTimeout(()=>document.body.style.opacity="1",50);
 });
 
-progress.addEventListener("input",()=>{
-    audio.currentTime=(progress.value/100)*audio.duration;
+/* ===== ACTIVE NAV ===== */
+const sections=document.querySelectorAll("section");
+const navLinks=document.querySelectorAll(".navlinks a, .bottom-nav div");
+
+window.addEventListener("scroll",()=>{
+let current="";
+sections.forEach(sec=>{
+const top=window.scrollY;
+const offset=sec.offsetTop-200;
+const height=sec.offsetHeight;
+if(top>=offset && top<offset+height){
+current=sec.getAttribute("id");
+}
+});
+
+navLinks.forEach(link=>{
+link.style.color="var(--muted)";
+if(link.getAttribute("href")==="#"+current || link.getAttribute("onclick")?.includes(current)){
+link.style.color="var(--text)";
+}
+});
+});
+
+/* ===== CARD RIPPLE ===== */
+document.querySelectorAll(".card").forEach(card=>{
+card.addEventListener("click",e=>{
+const ripple=document.createElement("span");
+ripple.style.position="absolute";
+ripple.style.width="10px";
+ripple.style.height="10px";
+ripple.style.borderRadius="50%";
+ripple.style.background="rgba(255,255,255,.35)";
+ripple.style.left=e.offsetX+"px";
+ripple.style.top=e.offsetY+"px";
+ripple.style.transform="scale(0)";
+ripple.style.pointerEvents="none";
+ripple.style.transition="transform .6s, opacity .6s";
+card.appendChild(ripple);
+
+setTimeout(()=>{
+ripple.style.transform="scale(40)";
+ripple.style.opacity="0";
+},10);
+
+setTimeout(()=>ripple.remove(),600);
+});
+});
+
+/* ===== AUTO PAUSE MUSIC ===== */
+document.addEventListener("visibilitychange",()=>{
+if(document.hidden && !music.paused){
+music.pause();
+}
 });
 </script>
-
 </body>
 </html>
