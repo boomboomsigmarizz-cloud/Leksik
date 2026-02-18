@@ -1,237 +1,259 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leksik</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LX Project — Luxury</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
---bg:#0b0b0b;
---card:#121212;
---text:#ffffff;
---muted:#9f9f9f;
---accent:#ffffff;
---glow:rgba(255,255,255,.25);
+  --bg:#050505;
+  --glass:rgba(255,255,255,.06);
+  --border:rgba(255,255,255,.15);
+  --muted:rgba(255,255,255,.6);
 }
 
-body.light{
---bg:#f4f4f4;
---card:#ffffff;
---text:#111;
---muted:#555;
---accent:#000;
---glow:rgba(0,0,0,.25);
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:#fff;
+  overflow-x:hidden;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);transition:.35s}
-
-/* LIVE BACKGROUND */
-#bg{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-1;
-background:var(--bg);
+/* ===== Scroll Progress ===== */
+.progress{
+  position:fixed;top:0;left:0;height:3px;width:0%;
+  background:#fff;z-index:9999;transition:width .1s linear;
 }
 
-/* NAVBAR */
+/* ===== Cursor Light ===== */
+.cursor-light{
+  position:fixed;
+  width:500px;height:500px;
+  background:radial-gradient(circle, rgba(255,255,255,.12) 0%, transparent 60%);
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  z-index:0;
+  mix-blend-mode:screen;
+}
+
+/* ===== Background ===== */
+.bg{
+  position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.05), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,.04), transparent 40%),
+    #000;
+  animation:floatBg 20s ease-in-out infinite alternate;
+}
+@keyframes floatBg{
+  from{background-position:0 0, 0 0;}
+  to{background-position:50px 30px, -50px -30px;}
+}
+
+/* ===== Nav ===== */
 nav{
-position:fixed;top:0;width:100%;height:70px;
-display:flex;align-items:center;justify-content:space-between;
-padding:0 40px;background:rgba(0,0,0,.5);
-backdrop-filter:blur(10px);z-index:999}
+  position:fixed;top:0;width:100%;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:25px 60px;
+  backdrop-filter:blur(20px);
+  background:linear-gradient(to bottom, rgba(0,0,0,.7), transparent);
+  z-index:10;
+}
+.logo{font-weight:800;letter-spacing:3px;}
+.nav-links a{
+  margin-left:30px;text-decoration:none;color:#fff;opacity:.6;transition:.3s;
+}
+.nav-links a:hover{opacity:1;}
 
-.logo{font-weight:800;font-size:22px;letter-spacing:3px}
-.navlinks{display:flex;gap:28px}
-.navlinks a{color:var(--muted);text-decoration:none;font-size:14px;transition:.25s}
-.navlinks a:hover{color:var(--text)}
+/* ===== Sections ===== */
+section{
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:0 20px;
+}
+.hero h1{
+  font-size:clamp(42px,7vw,100px);
+  font-weight:800;
+  letter-spacing:-2px;
+}
+.hero p{margin-top:20px;color:var(--muted);}
+.btn{
+  margin-top:40px;padding:15px 45px;
+  border:1px solid var(--border);
+  border-radius:40px;text-decoration:none;color:#fff;
+  transition:.3s;
+}
+.btn:hover{background:#fff;color:#000;}
 
-.theme-btn{
-cursor:pointer;border:1px solid #333;
-padding:8px 14px;border-radius:30px;
-background:transparent;color:var(--text);
+/* ===== Projects ===== */
+.projects h2,
+.connect h2{
+  font-size:60px;margin-bottom:60px;
+}
+.cards{
+  display:flex;gap:30px;flex-wrap:wrap;justify-content:center;
+}
+.card{
+  width:280px;padding:50px 30px;
+  border-radius:25px;
+  background:var(--glass);
+  backdrop-filter:blur(30px);
+  border:1px solid var(--border);
+  transition:.4s ease;
+}
+.card:hover{
+  transform:translateY(-15px) scale(1.02);
+  background:rgba(255,255,255,.1);
+}
+.card span{opacity:.5;}
+
+/* ===== Links ===== */
+.links a{
+  display:block;margin:18px 0;font-size:26px;
+  text-decoration:none;color:#fff;opacity:.7;
+  transition:.3s;
+}
+.links a:hover{opacity:1;letter-spacing:3px;}
+
+/* ===== Reveal Animation ===== */
+.reveal{
+  opacity:0;
+  transform:translateY(40px);
+  transition:1s ease;
+}
+.reveal.active{
+  opacity:1;
+  transform:translateY(0);
 }
 
-/* HERO */
-.hero{
-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 20px}
-.hero h1{font-size:clamp(40px,8vw,100px);font-weight:800;line-height:1.05}
-.hero p{margin-top:20px;color:var(--muted)}
+/* ===== Music Player ===== */
+.player{
+  position:fixed;bottom:25px;right:25px;
+  background:var(--glass);
+  backdrop-filter:blur(30px);
+  border:1px solid var(--border);
+  padding:20px 25px;border-radius:25px;
+  width:260px;
+}
+.play-btn{
+  width:45px;height:45px;border-radius:50%;
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;margin-bottom:10px;
+  transition:.3s;
+}
+.play-btn:hover{background:#fff;color:#000;}
+.progress-bar{
+  width:100%;height:4px;background:rgba(255,255,255,.1);
+  border-radius:5px;overflow:hidden;margin-top:10px;
+}
+.progress-bar div{
+  height:100%;width:0%;background:#fff;
+}
 
-.playbtn{
-margin-top:40px;padding:14px 30px;border-radius:40px;
-border:1px solid #333;background:var(--card);
-color:var(--text);cursor:pointer;transition:.25s}
-.playbtn:hover{box-shadow:0 0 25px var(--glow);transform:translateY(-2px)}
-
-/* SECTIONS */
-section{padding:120px 20px;max-width:1100px;margin:auto}
-.section-title{font-size:32px;margin-bottom:40px}
-
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
-
-.card{
-background:var(--card);padding:25px;border-radius:18px;
-border:1px solid #1e1e1e;cursor:pointer;transition:.25s;
-position:relative;overflow:hidden}
-
-.card:before{
-content:"";
-position:absolute;inset:0;
-background:radial-gradient(circle at var(--x) var(--y),var(--glow),transparent 40%);
-opacity:0;transition:.25s}
-
-.card:hover:before{opacity:1}
-.card:hover{transform:translateY(-6px);border-color:#444}
-
-.card h3{margin-bottom:8px}
-.card p{color:var(--muted);font-size:14px}
-
-/* BOTTOM NAV */
-.bottom-nav{
-position:fixed;bottom:0;width:100%;
-background:rgba(0,0,0,.6);
-backdrop-filter:blur(10px);
-display:flex;justify-content:center;gap:50px;padding:14px 10px}
-
-.bottom-nav div{color:var(--muted);cursor:pointer}
-.bottom-nav div:hover{color:var(--text)}
-
-@media(max-width:700px){
-nav{padding:0 20px}
-.navlinks{display:none}
-.hero h1{font-size:44px}
+/* ===== Mobile ===== */
+@media(max-width:768px){
+  nav{padding:20px;}
+  .nav-links{display:none;}
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="bg"></canvas>
+<div class="progress" id="scrollProgress"></div>
+<div class="cursor-light" id="cursorLight"></div>
+<div class="bg"></div>
 
 <nav>
-<div class="logo">LX</div>
-<div class="navlinks">
-<a href="#about">About</a>
-<a href="#projects">Projects</a>
-<a href="#contacts">Contacts</a>
-</div>
-<button class="theme-btn" onclick="toggleTheme()">Theme</button>
+  <div class="logo">LX PROJECT</div>
+  <div class="nav-links">
+    <a href="#projects">Projects</a>
+    <a href="#connect">Connect</a>
+  </div>
 </nav>
 
-<div class="hero">
-<div>
-<h1>Calm is always here</h1>
-<p>DLL Developer • Reverse Engineering • Game Modding • Custom Tools</p>
-<button class="playbtn" onclick="toggleMusic()">Play Music</button>
-</div>
-</div>
-
-<section id="about">
-<div class="section-title">About me</div>
-<div class="grid">
-<div class="card"><h3>Developer</h3><p>I write software, injectors and launchers focused on performance and simplicity.</p></div>
-<div class="card"><h3>Modding</h3><p>Creating game modifications and internal tools.</p></div>
-<div class="card"><h3>Design</h3><p>Minimalistic UI/UX with smooth animations.</p></div>
-<div class="card"><h3>Philosophy</h3><p>Fast and clean software over bloated solutions.</p></div>
-</div>
+<section class="hero reveal">
+  <h1>System Under Control.</h1>
+  <p>Luxury Official Platform</p>
+  <a href="#projects" class="btn">Explore</a>
 </section>
 
-<section id="projects">
-<div class="section-title">Projects</div>
-<div class="grid">
-<div class="card"><h3>Game Mods</h3><p>Internal & external modifications</p></div>
-<div class="card"><h3>Launchers</h3><p>Custom lightweight launchers</p></div>
-<div class="card"><h3>DLL Tools</h3><p>Injectors and debugging helpers</p></div>
-<div class="card"><h3>Automation</h3><p>Utility scripts & helpers</p></div>
-</div>
+<section class="projects reveal" id="projects">
+  <h2>Projects.</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>LX Core</h3>
+      <span>Coming Soon</span>
+    </div>
+    <div class="card">
+      <h3>LX Tools</h3>
+      <span>Coming Soon</span>
+    </div>
+    <div class="card">
+      <h3>LX Launcher</h3>
+      <span>Coming Soon</span>
+    </div>
+  </div>
 </section>
 
-<section id="contacts">
-<div class="section-title">Contacts</div>
-<div class="grid">
-<div class="card" onclick="go('https://t.me/leksiktw')"><h3>Telegram</h3><p>@leksiktw</p></div>
-<div class="card" onclick="go('https://discord.com/users/dobryaaaak')"><h3>Discord</h3><p>@dobryaaaak</p></div>
-<div class="card" onclick="go('https://www.tiktok.com/@sigma.skibiditoilet.rizz')"><h3>TikTok</h3><p>sigma.skibiditoilet.rizz</p></div>
-<div class="card" onclick="go('https://leksik.carrd.co')"><h3>Bio</h3><p>Profile page</p></div>
-<div class="card" onclick="go('https://guns.lol/leksik')"><h3>Guns.lol</h3><p>Main profile</p></div>
-</div>
+<section class="connect reveal" id="connect">
+  <h2>Connect.</h2>
+  <div class="links">
+    <a href="https://t.me/leksiktw" target="_blank">Telegram</a>
+    <a href="#">Discord — @dobryaaaak</a>
+    <a href="https://www.tiktok.com/@sigma.skibiditoilet.rizz" target="_blank">TikTok</a>
+    <a href="https://guns.lol/leksik" target="_blank">Guns</a>
+    <a href="https://leksik.carrd.co/" target="_blank">Bio</a>
+  </div>
 </section>
 
-<div class="bottom-nav">
-<div onclick="scrollToSection('about')">About</div>
-<div onclick="scrollToSection('projects')">Projects</div>
-<div onclick="scrollToSection('contacts')">Contacts</div>
+<div class="player">
+  <div class="play-btn" onclick="toggleMusic()">▶</div>
+  <div>Alex — LX Theme</div>
+  <div class="progress-bar"><div id="musicProgress"></div></div>
+  <audio id="audio" src="alex.mp3"></audio>
 </div>
-
-<audio id="music" src="alex.mp3"></audio>
 
 <script>
-const music=document.getElementById('music');
-function toggleMusic(){music.paused?music.play():music.pause();}
-function toggleTheme(){document.body.classList.toggle('light');}
-function go(url){window.location.href=url}
-function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
-
-document.querySelectorAll('.card').forEach(card=>{
-card.addEventListener('mousemove',e=>{
-const r=card.getBoundingClientRect();
-card.style.setProperty('--x',(e.clientX-r.left)+'px');
-card.style.setProperty('--y',(e.clientY-r.top)+'px');
-});
+/* Scroll Progress */
+window.addEventListener("scroll",()=>{
+  let scrollTop=document.documentElement.scrollTop;
+  let height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  document.getElementById("scrollProgress").style.width=(scrollTop/height)*100+"%";
 });
 
-/* LIVE PARTICLES BACKGROUND */
-const canvas=document.getElementById("bg");
-const ctx=canvas.getContext("2d");
+/* Reveal */
+const reveals=document.querySelectorAll(".reveal");
+window.addEventListener("scroll",()=>{
+  reveals.forEach(r=>{
+    if(r.getBoundingClientRect().top<window.innerHeight-100){
+      r.classList.add("active");
+    }
+  });
+});
 
-let particles=[];
-const amount=70;
+/* Cursor Light */
+const cursor=document.getElementById("cursorLight");
+document.addEventListener("mousemove",e=>{
+  cursor.style.left=e.clientX+"px";
+  cursor.style.top=e.clientY+"px";
+});
 
-function resize(){
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
+/* Music */
+const audio=document.getElementById("audio");
+const progress=document.getElementById("musicProgress");
+function toggleMusic(){
+  if(audio.paused){audio.play();event.target.innerHTML="❚❚";}
+  else{audio.pause();event.target.innerHTML="▶";}
 }
-window.addEventListener("resize",resize);
-resize();
-
-class Particle{
-constructor(){this.reset();}
-reset(){
-this.x=Math.random()*canvas.width;
-this.y=Math.random()*canvas.height;
-this.vx=(Math.random()-0.5)*0.3;
-this.vy=(Math.random()-0.5)*0.3;
-this.size=Math.random()*1.8+0.2;
-}
-move(){
-this.x+=this.vx;
-this.y+=this.vy;
-if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height) this.reset();
-}
-draw(){
-ctx.beginPath();
-ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
-ctx.fillStyle=document.body.classList.contains("light")?"rgba(0,0,0,.25)":"rgba(255,255,255,.25)";
-ctx.fill();
-}
-}
-
-for(let i=0;i<amount;i++)particles.push(new Particle());
-
-function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-particles.forEach(p=>{p.move();p.draw();});
-requestAnimationFrame(animate);
-}
-animate();
+audio.addEventListener("timeupdate",()=>{
+  progress.style.width=(audio.currentTime/audio.duration)*100+"%";
+});
 </script>
 
 </body>
