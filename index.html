@@ -1,238 +1,165 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leksik</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-
-<style>
+<title>LX SYSTEM</title><style>
 :root{
---bg:#0b0b0b;
---card:#121212;
---text:#ffffff;
---muted:#9f9f9f;
---accent:#ffffff;
---glow:rgba(255,255,255,.25);
+  --bg:#000;
+  --fg:#f5f5f5;
+  --muted:#aaa;
+  --accent:#0f0;
 }
 
-body.light{
---bg:#f4f4f4;
---card:#ffffff;
---text:#111;
---muted:#555;
---accent:#000;
---glow:rgba(0,0,0,.25);
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:"JetBrains Mono", monospace;
+  overflow:hidden;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);transition:.35s}
-
-/* LIVE BACKGROUND */
-#bg{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-1;
-background:var(--bg);
+/* desktop area */
+#desktop{
+  position:fixed; inset:0;
 }
 
-/* NAVBAR */
-nav{
-position:fixed;top:0;width:100%;height:70px;
-display:flex;align-items:center;justify-content:space-between;
-padding:0 40px;background:rgba(0,0,0,.5);
-backdrop-filter:blur(10px);z-index:999}
+/* windows */
+.window{
+  position:absolute;
+  background:rgba(0,0,0,0.75);
+  border:1px solid #333;
+  border-radius:12px;
+  backdrop-filter: blur(10px);
+  padding:10px;
+  width:320px; max-width:92vw;
+  touch-action:none; /* for drag */
+}
+.window:hover{ border-color:#fff }
 
-.logo{font-weight:800;font-size:22px;letter-spacing:3px}
-.navlinks{display:flex;gap:28px}
-.navlinks a{color:var(--muted);text-decoration:none;font-size:14px;transition:.25s}
-.navlinks a:hover{color:var(--text)}
+.title{ font-size:12px; color:var(--muted); margin-bottom:6px }
+.terminal{ font-size:13px; white-space:pre-line }
+.input{ width:100%; border:none; outline:none; background:transparent; color:var(--accent); font-family:inherit }
 
-.theme-btn{
-cursor:pointer;border:1px solid #333;
-padding:8px 14px;border-radius:30px;
-background:transparent;color:var(--text);
+button{
+  background:#fff; color:#000; border:none; padding:6px 10px; margin-right:6px; border-radius:6px;
 }
 
-/* HERO */
-.hero{
-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 20px}
-.hero h1{font-size:clamp(40px,8vw,100px);font-weight:800;line-height:1.05}
-.hero p{margin-top:20px;color:var(--muted)}
+/* positions (desktop) */
+#links{ top:20px; left:20px }
+#music{ top:20px; right:20px }
+#system{ bottom:20px; left:20px }
+#visual{ bottom:20px; right:20px }
+#center{ top:50%; left:50%; transform:translate(-50%,-50%); width:420px; max-width:95vw }
 
-.playbtn{
-margin-top:40px;padding:14px 30px;border-radius:40px;
-border:1px solid #333;background:var(--card);
-color:var(--text);cursor:pointer;transition:.25s}
-.playbtn:hover{box-shadow:0 0 25px var(--glow);transform:translateY(-2px)}
+.matrix{ font-size:10px; color:var(--accent); height:150px; overflow:hidden }
 
-/* SECTIONS */
-section{padding:120px 20px;max-width:1100px;margin:auto}
-.section-title{font-size:32px;margin-bottom:40px}
-
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
-
-.card{
-background:var(--card);padding:25px;border-radius:18px;
-border:1px solid #1e1e1e;cursor:pointer;transition:.25s;
-position:relative;overflow:hidden}
-
-.card:before{
-content:"";
-position:absolute;inset:0;
-background:radial-gradient(circle at var(--x) var(--y),var(--glow),transparent 40%);
-opacity:0;transition:.25s}
-
-.card:hover:before{opacity:1}
-.card:hover{transform:translateY(-6px);border-color:#444}
-
-.card h3{margin-bottom:8px}
-.card p{color:var(--muted);font-size:14px}
-
-/* BOTTOM NAV */
-.bottom-nav{
-position:fixed;bottom:0;width:100%;
-background:rgba(0,0,0,.6);
-backdrop-filter:blur(10px);
-display:flex;justify-content:center;gap:50px;padding:14px 10px}
-
-.bottom-nav div{color:var(--muted);cursor:pointer}
-.bottom-nav div:hover{color:var(--text)}
-
-@media(max-width:700px){
-nav{padding:0 20px}
-.navlinks{display:none}
-.hero h1{font-size:44px}
+/* MOBILE LAYOUT */
+@media (max-width: 768px){
+  body{ overflow:auto }
+  #desktop{ position:relative; padding:10px; display:grid; gap:10px; grid-template-columns:1fr }
+  .window{ position:relative; width:100%; left:auto; top:auto; transform:none }
+  #center{ order:-1 }
 }
-</style>
-</head>
-
-<body>
-
-<canvas id="bg"></canvas>
-
-<nav>
-<div class="logo">LX</div>
-<div class="navlinks">
-<a href="#about">About</a>
-<a href="#projects">Projects</a>
-<a href="#contacts">Contacts</a>
-</div>
-<button class="theme-btn" onclick="toggleTheme()">Theme</button>
-</nav>
-
-<div class="hero">
-<div>
-<h1>Calm is always here</h1>
-<p>DLL Developer • Reverse Engineering • Game Modding • Custom Tools</p>
-<button class="playbtn" onclick="toggleMusic()">Play Music</button>
-</div>
-</div>
-
-<section id="about">
-<div class="section-title">About me</div>
-<div class="grid">
-<div class="card"><h3>Developer</h3><p>I write software, injectors and launchers focused on performance and simplicity.</p></div>
-<div class="card"><h3>Modding</h3><p>Creating game modifications and internal tools.</p></div>
-<div class="card"><h3>Design</h3><p>Minimalistic UI/UX with smooth animations.</p></div>
-<div class="card"><h3>Philosophy</h3><p>Fast and clean software over bloated solutions.</p></div>
-</div>
-</section>
-
-<section id="projects">
-<div class="section-title">Projects</div>
-<div class="grid">
-<div class="card"><h3>Game Mods</h3><p>Internal & external modifications</p></div>
-<div class="card"><h3>Launchers</h3><p>Custom lightweight launchers</p></div>
-<div class="card"><h3>DLL Tools</h3><p>Injectors and debugging helpers</p></div>
-<div class="card"><h3>Automation</h3><p>Utility scripts & helpers</p></div>
-</div>
-</section>
-
-<section id="contacts">
-<div class="section-title">Contacts</div>
-<div class="grid">
-<div class="card" onclick="go('https://t.me/leksiktw')"><h3>Telegram</h3><p>@leksiktw</p></div>
-<div class="card" onclick="go('https://discord.com/users/dobryaaaak')"><h3>Discord</h3><p>@dobryaaaak</p></div>
-<div class="card" onclick="go('https://www.tiktok.com/@sigma.skibiditoilet.rizz')"><h3>TikTok</h3><p>sigma.skibiditoilet.rizz</p></div>
-<div class="card" onclick="go('https://leksik.carrd.co')"><h3>Bio</h3><p>Profile page</p></div>
-<div class="card" onclick="go('https://guns.lol/leksik')"><h3>Guns.lol</h3><p>Main profile</p></div>
-</div>
-</section>
-
-<div class="bottom-nav">
-<div onclick="scrollToSection('about')">About</div>
-<div onclick="scrollToSection('projects')">Projects</div>
-<div onclick="scrollToSection('contacts')">Contacts</div>
-</div>
-
-<audio id="music" src="alex.mp3"></audio>
+</style></head><body>
+<div id="desktop"><!-- LINKS --><div class="window" id="links">
+  <div class="title">adapter://links</div>
+  <div class="terminal">
+> connections:\n
+<span onclick="openLink('https://guns.lol/leksik')" style="color:#0f0;cursor:pointer;">guns.lol/leksik</span>\n
+<span onclick="openLink('https://leksik.carrd.co/')" style="color:#0f0;cursor:pointer;">bio</span>
+  </div>
+</div><!-- MUSIC --><div class="window" id="music">
+  <div class="title">adapter://music</div>
+  <div class="terminal">
+> alex.mp3\n
+<button onclick="playMusic()">play</button>
+<button onclick="stopMusic()">stop</button>
+  </div>
+</div><!-- SYSTEM --><div class="window" id="system">
+  <div class="title">adapter://system</div>
+  <div class="terminal">
+user: leksik\nlang: python / bash / js / c#\nfocus: osint, network\n\nstatus: active
+  </div>
+</div><!-- MATRIX --><div class="window" id="visual">
+  <div class="title">adapter://visual</div>
+  <div class="matrix" id="matrix"></div>
+</div><!-- CENTER --><div class="window" id="center">
+  <div class="title">LX // adapter</div>
+  <div class="terminal" id="terminal">\n> system booted\n\ntype help</div>
+  <input class="input" id="input" autofocus>
+</div></div><audio id="audio" src="alex.mp3"></audio>
 
 <script>
-const music=document.getElementById('music');
-function toggleMusic(){music.paused?music.play():music.pause();}
-function toggleTheme(){document.body.classList.toggle('light');}
-function go(url){window.location.href=url}
-function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
 
-document.querySelectorAll('.card').forEach(card=>{
-card.addEventListener('mousemove',e=>{
-const r=card.getBoundingClientRect();
-card.style.setProperty('--x',(e.clientX-r.left)+'px');
-card.style.setProperty('--y',(e.clientY-r.top)+'px');
+/* DRAG (mouse + touch) */
+function makeDraggable(el){
+  let startX=0, startY=0, x=0, y=0, dragging=false;
+
+  const onStart = (e)=>{
+    dragging=true;
+    const p = e.touches ? e.touches[0] : e;
+    startX = p.clientX - el.offsetLeft;
+    startY = p.clientY - el.offsetTop;
+    el.style.zIndex = ++z;
+  };
+
+  const onMove = (e)=>{
+    if(!dragging) return;
+    const p = e.touches ? e.touches[0] : e;
+    x = p.clientX - startX;
+    y = p.clientY - startY;
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+  };
+
+  const onEnd = ()=> dragging=false;
+
+  el.addEventListener('mousedown', onStart);
+  el.addEventListener('touchstart', onStart, {passive:true});
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('touchmove', onMove, {passive:true});
+  window.addEventListener('mouseup', onEnd);
+  window.addEventListener('touchend', onEnd);
+}
+
+let z=1;
+document.querySelectorAll('.window').forEach(makeDraggable);
+
+/* TERMINAL */
+const input = document.getElementById('input');
+const term = document.getElementById('terminal');
+
+input.addEventListener('keydown', function(e){
+  if(e.key==='Enter'){
+    const cmd=input.value.trim();
+    term.innerHTML += '\n> ' + cmd;
+    runCommand(cmd);
+    input.value='';
+  }
 });
-});
 
-/* LIVE PARTICLES BACKGROUND */
-const canvas=document.getElementById("bg");
-const ctx=canvas.getContext("2d");
-
-let particles=[];
-const amount=70;
-
-function resize(){
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-}
-window.addEventListener("resize",resize);
-resize();
-
-class Particle{
-constructor(){this.reset();}
-reset(){
-this.x=Math.random()*canvas.width;
-this.y=Math.random()*canvas.height;
-this.vx=(Math.random()-0.5)*0.3;
-this.vy=(Math.random()-0.5)*0.3;
-this.size=Math.random()*1.8+0.2;
-}
-move(){
-this.x+=this.vx;
-this.y+=this.vy;
-if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height) this.reset();
-}
-draw(){
-ctx.beginPath();
-ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
-ctx.fillStyle=document.body.classList.contains("light")?"rgba(0,0,0,.25)":"rgba(255,255,255,.25)";
-ctx.fill();
-}
+function runCommand(cmd){
+  if(cmd==='help') term.innerHTML+='\nhelp, clear, whoami, links';
+  else if(cmd==='clear') term.innerHTML='';
+  else if(cmd==='whoami') term.innerHTML+='\nleksik // LX';
+  else if(cmd==='links') term.innerHTML+='\nguns.lol/leksik\nleksik.carrd.co';
+  else term.innerHTML+='\ncommand not found';
 }
 
-for(let i=0;i<amount;i++)particles.push(new Particle());
+/* MUSIC */
+function playMusic(){ document.getElementById('audio').play(); }
+function stopMusic(){ const a=document.getElementById('audio'); a.pause(); a.currentTime=0; }
 
-function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-particles.forEach(p=>{p.move();p.draw();});
-requestAnimationFrame(animate);
+/* LINKS */
+function openLink(url){ window.open(url, '_blank'); }
+
+/* MATRIX */
+const matrix = document.getElementById('matrix');
+function generateMatrix(){
+  let text=''; const chars='01';
+  for(let i=0;i<200;i++){ text+=chars[Math.floor(Math.random()*chars.length)]+' '; if(i%20===0) text+='\n'; }
+  matrix.innerText=text;
 }
-animate();
-</script>
+setInterval(generateMatrix,120);
 
-</body>
-    </html>
+</script></body>
+</html>
