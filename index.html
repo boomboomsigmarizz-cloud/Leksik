@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LX ~ leksik</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════ THEMES ══════════ */
+:root{
+  --bg:#080808;--bg1:#0d0d0d;--bg2:#111;--bg3:#181818;
+  --b:#202020;--b2:#2c2c2c;
+  --acc:#ffffff;--mid:#777;--dim:#3a3a3a;--dim2:#1e1e1e;--w:#e0e0e0;
+  --glow:rgba(255,255,255,.06);--scan:rgba(0,0,0,.06);
+}
+body.green{--bg:#020c02;--bg1:#031003;--bg2:#041404;--bg3:#061806;--b:#0e280e;--b2:#183818;--acc:#00ff41;--mid:#2e7a2e;--dim:#143014;--dim2:#0a1a0a;--w:#a0ffa0;--glow:rgba(0,255,65,.08);}
+body.blue{--bg:#020408;--bg1:#030610;--bg2:#040814;--bg3:#060c1a;--b:#0a1c2c;--b2:#12283c;--acc:#00d4ff;--mid:#206080;--dim:#0e2030;--dim2:#071018;--w:#90e8ff;--glow:rgba(0,212,255,.08);}
+body.red{--bg:#080202;--bg1:#0d0303;--bg2:#110404;--bg3:#180606;--b:#280808;--b2:#381010;--acc:#ff3333;--mid:#882222;--dim:#381010;--dim2:#200808;--w:#ffa0a0;--glow:rgba(255,51,51,.08);}
+body.amber{--bg:#080500;--bg1:#0d0800;--bg2:#110b00;--bg3:#181100;--b:#281a00;--b2:#382600;--acc:#ffaa00;--mid:#885500;--dim:#382600;--dim2:#201500;--w:#ffe090;--glow:rgba(255,170,0,.08);}
+body.purple{--bg:#060208;--bg1:#0a030d;--bg2:#0d0411;--bg3:#130618;--b:#200e28;--b2:#2e1638;--acc:#cc66ff;--mid:#6622aa;--dim:#2e1638;--dim2:#190c22;--w:#e0b0ff;--glow:rgba(204,102,255,.08);}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{background:var(--bg);color:var(--w);font-family:'JetBrains Mono',monospace;font-size:12px;min-height:100vh;overflow-x:hidden;transition:background .5s,color .5s;}
+
+/* scanlines */
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,var(--scan) 2px,var(--scan) 4px);pointer-events:none;z-index:9999;}
+body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.7) 100%);pointer-events:none;z-index:9998;}
+
+/* ══ BOOT ══ */
+#boot{position:fixed;inset:0;background:#030303;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:40px 8%;z-index:10000;transition:opacity .7s .2s;}
+#boot.hide{opacity:0;pointer-events:none;}
+.bl{color:#3a3a3a;font-size:12px;line-height:1.9;opacity:0;transform:translateY(3px);transition:opacity .2s,transform .2s;}
+.bl.on{opacity:1;transform:none;}
+.bl .ok{color:#555;}.bl .hi{color:#999;}
+
+/* ══ APP ══ */
+#app{opacity:0;transition:opacity .6s;max-width:1600px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:12px;}
+#app.show{opacity:1;}
+
+/* ══ TOPBAR ══ */
+.topbar{
+  grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;
+  background:var(--bg2);border:1px solid var(--b);padding:5px 14px;
+  position:sticky;top:0;z-index:200;transition:all .4s;
+}
+.tl{display:flex;gap:14px;align-items:center;}
+.tlogo{color:var(--acc);font-weight:700;font-size:14px;letter-spacing:-1px;text-shadow:0 0 14px var(--acc);}
+.chip{color:var(--mid);border:1px solid var(--b);padding:1px 8px;font-size:10px;transition:all .2s;}
+.tr{display:flex;gap:14px;align-items:center;color:var(--dim);}
+.clk{color:var(--acc)!important;letter-spacing:2px;font-size:12px;}
+
+/* theme dots */
+.themes{display:flex;gap:5px;align-items:center;}
+.th{width:13px;height:13px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform .15s,border-color .15s;}
+.th:hover,.th.act{transform:scale(1.4);border-color:var(--acc);}
+.th-bw{background:#eee;}.th-g{background:#00ff41;}.th-b{background:#00d4ff;}.th-r{background:#ff3333;}.th-a{background:#ffaa00;}.th-p{background:#cc66ff;}
+
+/* ══ WINDOW ══ */
+.w{background:var(--bg1);border:1px solid var(--b);display:flex;flex-direction:column;overflow:hidden;animation:fu .4s ease both;transition:border-color .2s,background .4s,box-shadow .2s;}
+.w:hover{border-color:var(--b2);box-shadow:0 0 24px var(--glow);}
+.wbar{display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--bg3);border-bottom:1px solid var(--b);flex-shrink:0;user-select:none;transition:background .4s;}
+.dots{display:flex;gap:5px;}
+.d{width:10px;height:10px;border-radius:50%;transition:all .2s;}
+.dr{background:#5c1a1a;}.dy{background:#5c4a10;}.dg{background:#1a5c1a;}
+.w:hover .dr{background:#c03030;}.w:hover .dy{background:#c09020;}.w:hover .dg{background:#30c050;}
+.wt{color:var(--mid);font-size:10.5px;flex:1;text-align:center;letter-spacing:.4px;}
+.wi{color:var(--dim);font-size:10px;}
+.wc{padding:14px;flex:1;overflow:hidden;}
+@keyframes fu{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+/* ══ NEOFETCH ══ */
+.w-neo{grid-column:1/3;}
+.nfg{display:grid;grid-template-columns:auto 1fr;gap:0 18px;}
+.nflogo{color:var(--dim);font-size:11px;line-height:1.45;white-space:pre;user-select:none;transition:color .4s;}
+.nfi .row{display:flex;gap:8px;line-height:1.85;font-size:11.5px;}
+.nfi .k{color:var(--acc);min-width:90px;font-weight:700;text-shadow:0 0 6px var(--acc);}
+.nfi .v{color:var(--mid);}
+.sep{color:var(--dim);margin:5px 0;}
+.cstrip{display:flex;gap:3px;margin-top:10px;}
+.cs{width:18px;height:10px;border:1px solid var(--b);}
+
+/* ══ HERO ══ */
+.w-hero{grid-column:1;}
+.lx{font-size:52px;font-weight:700;color:var(--acc);letter-spacing:-3px;line-height:1;text-shadow:0 0 40px var(--acc);}
+.lxsub{margin-left:12px;display:flex;flex-direction:column;gap:2px;padding-bottom:5px;}
+.lxnm{font-size:14px;color:var(--acc);letter-spacing:1px;}
+.lxtg{font-size:10px;color:var(--mid);letter-spacing:3px;text-transform:uppercase;}
+.hbody{font-size:12px;color:var(--mid);line-height:1.95;margin-top:14px;}
+.hbody .hl{color:var(--acc);text-shadow:0 0 6px var(--acc);}
+.hbody .pr{color:var(--dim);margin:6px 0 2px;}
+.blink{animation:bl 1s step-end infinite;}
+@keyframes bl{50%{opacity:0;}}
+
+/* ══ MATRIX ══ */
+.w-mat{grid-column:2;}
+#matrix{width:100%;height:190px;display:block;}
+
+/* ══ MUSIC ══ */
+.w-mus{grid-column:3;grid-row:2/6;}
+.vinyl{
+  width:100%;aspect-ratio:1;background:var(--bg3);border:1px solid var(--b);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;position:relative;overflow:hidden;cursor:pointer;
+}
+.vinyl-disc{
+  position:absolute;inset:0;
+  background:repeating-conic-gradient(var(--bg3) 0deg 8deg,var(--b) 8deg 16deg);
+  opacity:.4;
+}
+#vring{animation:vspin 5s linear infinite;animation-play-state:paused;}
+@keyframes vspin{to{transform:rotate(360deg);}}
+.vinyl-center{
+  width:26%;aspect-ratio:1;border-radius:50%;
+  background:var(--bg);border:3px solid var(--b2);
+  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--acc);
+  box-shadow:0 0 12px var(--glow);
+}
+.mneedle{
+  position:absolute;top:8%;right:15%;width:2px;height:45%;
+  background:linear-gradient(var(--acc),var(--dim));
+  transform-origin:top center;transform:rotate(30deg);
+  border-radius:1px;z-index:2;
+  transition:transform .4s ease;
+}
+.mneedle.off{transform:rotate(70deg);}
+.mtitle{color:var(--acc);font-size:13px;margin-bottom:2px;text-shadow:0 0 8px var(--acc);}
+.martist{color:var(--dim);font-size:10px;margin-bottom:12px;}
+.mpbar{height:3px;background:var(--b2);margin-bottom:5px;cursor:pointer;position:relative;overflow:hidden;}
+.mpfill{height:100%;background:var(--acc);width:0;transition:width .8s linear;box-shadow:0 0 4px var(--acc);}
+.mtimes{display:flex;justify-content:space-between;color:var(--dim);font-size:10px;margin-bottom:14px;}
+.mctrl{display:flex;gap:18px;justify-content:center;font-size:17px;color:var(--mid);}
+.mctrl span{cursor:pointer;transition:color .15s,transform .1s,text-shadow .15s;}
+.mctrl span:hover{color:var(--acc);transform:scale(1.2);text-shadow:0 0 8px var(--acc);}
+.mplay{color:var(--acc)!important;text-shadow:0 0 10px var(--acc)!important;}
+.mvolrow{display:flex;align-items:center;gap:8px;margin-top:14px;}
+.mvollbl{color:var(--dim);font-size:10px;width:22px;text-align:right;}
+input[type=range]{flex:1;-webkit-appearance:none;height:3px;background:var(--b2);outline:none;cursor:pointer;border-radius:2px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;height:11px;border-radius:50%;background:var(--acc);box-shadow:0 0 5px var(--acc);}
+.meq{display:flex;gap:2px;align-items:flex-end;height:44px;margin-top:14px;}
+.eqb{flex:1;border-radius:1px 1px 0 0;opacity:.8;background:var(--acc);}
+.minfo{margin-top:14px;padding-top:12px;border-top:1px solid var(--b);font-size:11px;color:var(--dim);line-height:1.8;}
+.minfo .hl{color:var(--acc);}
+
+/* ══ CONTACTS ══ */
+.w-con{grid-column:1;}
+.clink{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--b);text-decoration:none;color:var(--w);transition:all .15s;font-size:12px;}
+.clink:last-child{border-bottom:none;}
+.clink:hover{color:var(--acc);padding-left:8px;text-shadow:0 0 6px var(--acc);}
+.clink:hover .ci{color:var(--acc);}
+.ci{color:var(--dim);width:32px;font-size:10px;letter-spacing:.5px;}
+.clabel{flex:1;}
+.curl{color:var(--dim);font-size:10px;margin-right:5px;}
+.carr{color:var(--dim);font-size:11px;}
+
+/* ══ BIO ══ */
+.w-bio{grid-column:2;}
+.bioprompt{color:var(--dim);font-size:11px;margin-bottom:10px;}
+.bioprompt b{color:var(--acc);}
+.biobody{font-size:11.5px;color:var(--mid);line-height:1.9;}
+.biobody .hl{color:var(--acc);}
+.biobody .sec{margin-top:10px;}
+
+/* ══ SKILLS ══ */
+.w-skl{grid-column:1;}
+.skrow{margin-bottom:11px;}
+.sknm{color:var(--acc);font-size:11px;display:flex;justify-content:space-between;margin-bottom:4px;}
+.skpct{color:var(--mid);}
+.skbar{background:var(--bg3);height:3px;border:1px solid var(--b);overflow:hidden;}
+.skfill{height:3px;background:var(--acc);width:0;transition:width 1.6s cubic-bezier(.4,0,.2,1);box-shadow:0 0 4px var(--acc);}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px;}
+.tag{border:1px solid var(--b);padding:2px 9px;font-size:10px;color:var(--dim);cursor:default;transition:all .15s;}
+.tag:hover{border-color:var(--acc);color:var(--acc);text-shadow:0 0 4px var(--acc);}
+
+/* ══ PROCESSES ══ */
+.w-ps{grid-column:2;}
+.pshead{display:grid;grid-template-columns:36px 1fr 44px 44px 58px;color:var(--dim);font-size:10px;border-bottom:1px solid var(--b);padding-bottom:5px;margin-bottom:5px;gap:4px;}
+.psrow{display:grid;grid-template-columns:36px 1fr 44px 44px 58px;font-size:10.5px;color:var(--mid);padding:3px 0;gap:4px;border-bottom:1px solid var(--dim2);transition:color .1s;}
+.psrow:hover{color:var(--acc);}
+.psrow .pn{color:var(--w);}
+.psrow .ph{color:var(--acc);}
+
+/* ══ TERMINAL ══ */
+.w-term{grid-column:1/3;}
+.tscroll{height:180px;overflow-y:auto;font-size:11.5px;line-height:1.8;padding:2px 0;}
+.tscroll::-webkit-scrollbar{width:4px;}
+.tscroll::-webkit-scrollbar-track{background:var(--bg);}
+.tscroll::-webkit-scrollbar-thumb{background:var(--b2);}
+.tl-out{color:var(--mid);}
+.tl-out .tp{color:var(--acc);font-weight:700;}
+.tl-out .tc{color:var(--w);}
+.tl-out .err{color:#ff4444;}
+.tl-out .suc{color:#44cc44;}
+.tinrow{display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--b);}
+.tinprompt{color:var(--acc);font-weight:700;white-space:nowrap;font-size:11.5px;flex-shrink:0;}
+#tinput{flex:1;background:transparent;border:none;outline:none;color:var(--w);font-family:'JetBrains Mono',monospace;font-size:11.5px;caret-color:var(--acc);}
+
+/* ══ KEYBOARD ══ */
+.w-kbd{grid-column:1/3;}
+.kbdwrap{display:flex;flex-direction:column;gap:4px;align-items:center;}
+.krow{display:flex;gap:3px;}
+.key{
+  min-width:30px;height:30px;border:1px solid var(--b2);border-bottom:3px solid var(--dim);
+  background:var(--bg3);display:flex;align-items:center;justify-content:center;
+  font-size:9px;color:var(--mid);border-radius:3px;cursor:pointer;
+  transition:all .08s;user-select:none;padding:0 5px;letter-spacing:0;
+  position:relative;
+}
+.key:active,.key.lit{background:var(--acc);color:var(--bg);border-color:var(--acc);border-bottom-color:var(--dim);box-shadow:0 0 8px var(--acc);transform:translateY(2px);}
+.key.w2{min-width:46px;}.key.w3{min-width:62px;}.key.w4{min-width:86px;}.key.w5{min-width:54px;}
+.key.space{min-width:220px;}
+#kbdStatus{font-size:10px;color:var(--dim);margin-top:6px;text-align:center;min-height:14px;}
+
+/* ══ CLOCK WIDGET ══ */
+.w-clkbig{grid-column:3;}
+.bigclock{font-size:42px;font-weight:700;color:var(--acc);letter-spacing:4px;text-align:center;text-shadow:0 0 30px var(--acc);margin-bottom:4px;}
+.bigdate{text-align:center;color:var(--mid);font-size:11px;letter-spacing:1px;margin-bottom:14px;}
+.clkgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;}
+.clkitem{background:var(--bg3);border:1px solid var(--b);padding:8px;text-align:center;}
+.clkitem .clklbl{font-size:10px;color:var(--dim);margin-bottom:2px;}
+.clkitem .clkval{font-size:13px;color:var(--acc);}
+
+/* ══ HTOP ══ */
+.w-htop{grid-column:1/-1;}
+.htoph{display:flex;justify-content:space-between;color:var(--dim);font-size:10.5px;margin-bottom:10px;}
+.htopg{display:grid;grid-template-columns:repeat(4,1fr);gap:7px 24px;}
+.hrow{display:flex;align-items:center;gap:8px;font-size:11px;}
+.hlbl{color:var(--mid);width:44px;flex-shrink:0;}
+.hbw{flex:1;background:var(--bg3);height:8px;border:1px solid var(--b);overflow:hidden;}
+.hbf{height:100%;background:var(--acc);transition:width 1.8s ease;box-shadow:0 0 4px var(--acc);}
+.hpct{color:var(--dim);width:38px;text-align:right;font-size:10px;}
+
+/* ══ WEATHER/STATUS WIDGET ══ */
+.w-stat{grid-column:3;}
+.statrow{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--b);font-size:11.5px;}
+.statrow:last-child{border-bottom:none;}
+.statlbl{color:var(--dim);}
+.statval{color:var(--acc);}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:960px){
+  #app{grid-template-columns:1fr 1fr;}
+  .w-neo,.w-htop,.w-term,.w-kbd{grid-column:1/-1;}
+  .w-mus{grid-column:1/-1;grid-row:auto;}
+  .w-hero,.w-mat,.w-con,.w-bio,.w-skl,.w-ps,.w-clkbig,.w-stat{grid-column:auto;grid-row:auto;}
+}
+@media(max-width:580px){
+  #app{grid-template-columns:1fr;}
+  .w,.w-neo,.w-mus,.w-hero,.w-mat,.w-con,.w-bio,.w-skl,.w-ps,.w-clkbig,.w-stat,.w-term,.w-kbd,.w-htop{grid-column:1;grid-row:auto;}
+}
+</style>
+</head>
+<body class="theme-bw">
+
+<!-- ══ BOOT ══ -->
+<div id="boot">
+  <div class="bl">SystemD v252 <span class="hi">Arch Linux</span></div>
+  <div class="bl">[ <span class="ok"> OK </span> ] Started Journal Service.</div>
+  <div class="bl">[ <span class="ok"> OK </span> ] Reached target Basic System.</div>
+  <div class="bl">[ <span class="ok"> OK </span> ] Started NVIDIA driver.</div>
+  <div class="bl">[ <span class="ok"> OK </span> ] Started Wayland compositor: <span class="hi">Hyprland</span></div>
+  <div class="bl">[ <span class="ok"> OK </span> ] Loading session: <span class="hi">leksik@mkhmatcore</span></div>
+  <div class="bl">[ <span class="ok"> OK </span> ] Starting kitty 0.42.2...</div>
+  <div class="bl">[ <span class="ok"> OK </span> ] pipewire audio: <span class="hi">active</span></div>
+  <div class="bl">[ <span class="ok"> OK </span> ] cava visualizer: <span class="hi">running</span></div>
+  <div class="bl">[ <span class="ok"> OK </span> ] cmatrix: <span class="hi">started</span></div>
+  <div class="bl">[ <span class="ok"> OK </span> ] adapter v3.0 — all systems nominal</div>
+  <div class="bl" style="margin-top:10px;color:#333;">Press any key to skip... <span class="blink" style="color:#444">█</span></div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="tl">
+      <span class="tlogo">LX</span>
+      <span class="chip">adapter</span>
+      <span class="chip">leksik@mkhmatcore</span>
+      <span class="chip">Arch · HyprLand</span>
+    </div>
+    <div class="tr">
+      <div class="themes">
+        <div class="th th-bw act" onclick="setTheme('')" title="B&W"></div>
+        <div class="th th-g" onclick="setTheme('green')" title="Matrix Green"></div>
+        <div class="th th-b" onclick="setTheme('blue')" title="Cyber Blue"></div>
+        <div class="th th-r" onclick="setTheme('red')" title="Red Alert"></div>
+        <div class="th th-a" onclick="setTheme('amber')" title="Amber"></div>
+        <div class="th th-p" onclick="setTheme('purple')" title="Purple"></div>
+      </div>
+      <span>NET↑ <span id="netspd">1.2M</span></span>
+      <span>CPU <span id="topcpu">23%</span></span>
+      <span>MEM 1.4G</span>
+      <span class="clk" id="clk">--:--:--</span>
+    </div>
+  </div>
+
+  <!-- NEOFETCH -->
+  <div class="w w-neo" style="animation-delay:.04s">
+    <div class="wbar"><div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div><div class="wt">mkhmatcore@mkhmatcore — neofetch</div><div class="wi">zsh</div></div>
+    <div class="wc">
+      <div class="nfg">
+        <div class="nflogo" id="nflogo">        /\
+       /  \
+      /\  /\
+     /  \/  \
+    /   /\   \
+   / A  /  R  \
+  / C  /    C  \
+ / H  /      H  \
+/____/________\__\</div>
+        <div class="nfi">
+          <div class="row"><span class="k" style="color:var(--mid)">mkhmatcore</span><span class="v">──── mkhmatcore</span></div>
+          <div class="sep">──────────────────────────────────</div>
+          <div class="row"><span class="k">OS</span><span class="v">Arch Linux x86_64</span></div>
+          <div class="row"><span class="k">Kernel</span><span class="v">6.16.8-arch3-1</span></div>
+          <div class="row"><span class="k">WM</span><span class="v">Hyprland (Wayland)</span></div>
+          <div class="row"><span class="k">Terminal</span><span class="v">kitty 0.42.2</span></div>
+          <div class="row"><span class="k">Shell</span><span class="v">zsh 5.9</span></div>
+          <div class="row"><span class="k">Display</span><span class="v">1920×1080 @ 144Hz [Built-in]</span></div>
+          <div class="row"><span class="k">CPU</span><span class="v">Intel i5-12500H (16) @ 4.5GHz</span></div>
+          <div class="row"><span class="k">GPU</span><span class="v">NVIDIA RTX 3060 Mobile / Max-Q</span></div>
+          <div class="row"><span class="k">Memory</span><span class="v">1.36 GiB / 15.41 GiB (8%)</span></div>
+          <div class="row"><span class="k">Packages</span><span class="v">1007 (pacman)</span></div>
+          <div class="row"><span class="k">OS Age</span><span class="v">149 days</span></div>
+          <div class="row"><span class="k">Uptime</span><span class="v" id="upnf">0h 00m 00s</span></div>
+          <div class="cstrip">
+            <div class="cs" style="background:#090909"></div><div class="cs" style="background:#1e1e1e"></div>
+            <div class="cs" style="background:#333"></div><div class="cs" style="background:#555"></div>
+            <div class="cs" style="background:#777"></div><div class="cs" style="background:#aaa"></div>
+            <div class="cs" style="background:#d0d0d0"></div><div class="cs" style="background:#fff"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="w w-hero" style="animation-delay:.08s">
+    <div class="wbar"><div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div><div class="wt">adapter — identity</div><div class="wi">~/</div></div>
+    <div class="wc">
+      <div style="display:flex;align-items:flex-end;margin-bottom:14px">
+        <div class="lx">LX</div>
+        <div class="lxsub"><span class="lxnm">Leksik</span><span class="lxtg">Adapter · v3.0</span></div>
+      </div>
+      <div class="hbody">
+        <span class="hl">$</span> whoami<br>
+        Researcher · Builder · Visual<br>
+        Делаю вещи которые <span class="hl">работают</span> и <span class="hl">выглядят</span>.<br>
+        <span class="pr">──────────────────────────</span>
+        <span class="hl">$</span> cat id.txt<br>
+        country  → <span class="hl">Russia</span><br>
+        pc since → <span class="hl">2019</span> · vr since <span class="hl">2020</span><br>
+        focus    → <span class="hl">OSINT</span> · linux · automation<br>
+        platform → <span class="hl">Arch btw</span> · Hyprland<br>
+        bros     → <span class="hl">EMaros</span>, Xdkep4 + others<br>
+        status   → <span class="hl">online</span><span class="blink">█</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MATRIX -->
+  <div class="w w-mat" style="animation-delay:.12s">
+    <div class="wbar"><div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div><div class="wt">cmatrix — live</div><div class="wi">∞</div></div>
+    <div class="wc" style="padding:8px"><canvas id="matrix"></canvas></div>
+  </div>
+
+  <!-- MUSIC -->
+  <div class="w w-mus" style="animation-delay:.06s">
+    <div class="wbar"><div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div><div class="wt">music — local player</div><div class="wi">pipewire</div></div>
+    <div class="wc">
+      <div class="vinyl" onclick="togglePlay()" title="Click to play/pause">
+        <div class="vinyl-disc" id="vring"></div>
+        <div class="vinyl-center">◎</div>
+        <div class="mneedle" id="mneedle"></div>
+      </div>
+      <div class="mtitle">alexg.mp3</div>
+      <div class="martist">local lib · leksik's playlist · 2025</div>
+      <div class="mpbar" id="mpbar" onclick="seekMusic(event)">
+        <div class="mpfill" id="mpfill"></div>
+      </div>
+      <div class="mtimes"><span id="mcur">0:00</span><span id="mdur">0:00</span></div>
+      <div class="mctrl">
+        <span onclick="restartMusic()" title="restart">⏮</span>
+        <span id="mplaybtn" class="mplay" onclick="togglePlay()" title="play/pause">▶</span>
+        <span onclick="stopMusic()" title="stop">⏹</span>
+        <span id="mloopbtn" onclick="toggleLoop()" title="loop" style="font-size:12px;opacity:.4">↺</span>
+      </div>
+      <div class="mvolrow">
+        <span class="mvollbl">🔊</span>
+        <input type="range" id="mvolume" min="0" max="100" value="80" oninput="setVolume(this.value)">
+        <span style="color:var(--dim);font-size:10px;width:28px" id="mvollbl">80%</span>
+      </div>
+      <div class="meq" id="meq"></div>
+      <div class="minfo">
+        <span class="hl">now playing</span> via local lib<br>
+        codec: mp3 · output: pipewire<br>
+        <span id="mstatus">⏸ paused — click vinyl to play</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACTS -->
+  <div class="w w-con" style="animation-delay:.16s">
+    <div class="wbar"><div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div><div class="wt">contacts — links.sh</div><div class="wi">5 entries</div></div>
+    <div class="wc">
+      <a class="clink" href="https://t.me/leksiktw" target="_blank"><span class="ci">TG</span><span class="clabel">Telegram</span><span class="curl">@leksiktw</span><span class="carr">↗</span></a>
+      <a class="clink" href="https://discord.com/users/dobryaaaak" target="_blank"><span class="ci">DC</span><span class="clabel">Discord</span><span class="curl">dobryaaaak</span><span class="carr">↗</span></a>
+      <a class="clink" href="https://leksik.carrd.co/" target="_blank"><span class="ci">BIO</span><span class="clabel">Carrd bio</span><span class="curl">leksik.carrd.co</span><span class="carr">↗</span></a>
+      <a class="clink" href="https://guns.lol/leksik" target="_blank"><span class="ci">GL</span><span class="clabel">Guns.lol</span><span class="curl">guns.lol/leksik</span><span class="carr">↗</span></a>
+      <a class="clink" href="https://carrd.io/Leksik" target="_blank"><span class="ci">CR</span><span class="clabel">Carrd alt</span><span class="curl">carrd.io/Leksik</span><span class="carr">↗</span></a>
+    </div>
+  </div>
+
+  <!-- BIO -->
+  <div class="w w-bio" style="animation-delay:.20s">
+    <div class="wbar"><div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div><div class="wt">leksik — bio.txt</div><div class="wi">cat</div></div>
+    <div class="wc">
+      <div class="bioprompt"><b>leksik</b>@arch ~ $ <span style="color:var(--mid)">cat bio.txt</span></div>
+      <div class="biobody">
+        <span class="hl">## IRL</span><br>
+        PC с 2019 · VR с 2020<br>
+        Rec Room player с 2020 — ветеран почти.<br>
+        Full S rank: Isle of Lost Skulls,<br>
+        Golden Trophy, Jumbotron.<br>
+        S+ на Stunt Runner & Crescendo.<br>
+        <div class="sec">
+          <span class="hl">## Games</span><br>
+          Gorilla Tag фангеймы, Cube Runners,<br>
+          Master Runners (v1-v2) — ностальгия.<br>
+          CS2 · Minecraft · GMod · The Forest<br>
+          Content Warning · Roblox: hggvme<br>
+          Recroom: leksik.leo
+        </div>
+        <div class="sec">
+          <span class="hl">## Build</span><br>
+          Строю комнаты в Rec Room.<br>
+          Logic mid, декор <span class="hl">реально живой</span>.<br>
+          Tweaking · modding · experimenting.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="w w-skl" style="animation-delay:.24s">
+    <div class="wbar"><div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div><div class="wt">skills — stack.json</div><div class="wi">lvl</div></div>
+    <div class="wc">
+      <div class="skrow"><div class="sknm">Python<span class="skpct">88%</span></div><div class="skbar"><div class="skfill" data-w="88"></div></div></div>
+      <div class="skrow"><div class="sknm">Bash / Shell<span class="skpct">82%</span></div><div class="skbar"><div class="skfill" data-w="82"></div></div></div>
+      <div class="skrow"><div class="sknm">HTML · CSS · JS<span class="skpct">75%</span></div><div class="skbar"><div class="skfill" data-w="75"></div></div></div>
+      <div class="skrow"><div class="sknm">C#<span class="skpct">65%</span></div><div class="skbar"><div class="skfill" data-w="65"></div></div></div>
+      <div class="skrow"><div class="sknm">Batch · VBScript<span class="skpct">58%</span></div><div class="skbar"><div class="skfill" data-w="58"></div></div></div>
+      <div class="tags">
+        <div class="tag">OSINT</div><div class="tag">Linux</div><div class="tag">Arch</div>
+        <div class="tag">Hyprland</div><div class="tag">Networking</div>
+        <div class="tag">Automation</div><div class="tag">Security</div>
+        <div class="tag">Dotfiles</div><div class="tag">VR</div><div class="tag">Rec Room</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROCESSES -->
+  <div class="w w-ps" style="animation-delay:.28s">
+    <div class="wbar"><div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div><div class="wt">ps aux — processes</div><div class="wi">live</div></div>
+    <div class="wc">
+      <div class="pshead"><span>PID</span><span>NAME</span><span>CPU%</span><span>MEM%</span><span>TIME+</span></div>
+      <div id="pslist"></div>
+    </div>
+  </div>
+
+  <!-- CLOCK -->
+  <div class="w w-clkbig" style="animation-delay:.10s">
+    <div class="wbar"><div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div><div class="wt">clock — world time</div><div class="wi">NTP</div></div>
+    <div class="wc">
+      <div class="bigclock" id="bigclk">--:--:--</div>
+      <div class="bigdate" id="bigdate">---, -- --- ----</div>
+      <div class="clkgrid">
+        <div class="clkitem"><div class="clklbl">Moscow</div><div class="clkval" id="tmsc">--:--</div></div>
+        <div class="clkitem"><div class="clklbl">London</div><div class="clkval" id="tldn">--:--</div></div>
+        <div class="clkitem"><div class="clklbl">New York</div><div class="clkval" id="tnyc">--:--</div></div>
+        <div class="clkitem"><div class="clklbl">Tokyo</div><div class="clkval" id="ttky">--:--</div></div>
+        <div class="clkitem"><div class="clklbl">Uptime</div><div class="clkval" id="upt2" style="font-size:11px">0h 00m</div></div>
+        <div class="clkitem"><div class="clklbl">Day #</div><div class="clkval" id="dayn">---</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TERMINAL -->
+  <div class="w w-term" style="animation-delay:.32s">
+    <div class="wbar"><div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div><div class="wt">kitty — interactive terminal</div><div class="wi">zsh · leksik</div></div>
+    <div class="wc" style="padding:10px">
+      <div class="tscroll" id="tscroll"></div>
+      <div class="tinrow">
+        <span class="tinprompt">leksik@arch ~ $</span>
+        <input id="tinput" placeholder="type a command... (help)" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+
+  <!-- KEYBOARD -->
+  <div class="w w-kbd" style="animation-delay:.36s">
+    <div class="wbar"><div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div><div class="wt">keyboard — input visualizer</div><div class="wi">evdev</div></div>
+    <div class="wc">
+      <div class="kbdwrap" id="kbdwrap">
+        <!-- Row 1: Numbers -->
+        <div class="krow">
+          <div class="key" data-k="Escape">ESC</div>
+          <div class="key" data-k="F1">F1</div><div class="key" data-k="F2">F2</div>
+          <div class="key" data-k="F3">F3</div><div class="key" data-k="F4">F4</div>
+          <div class="key" data-k="F5">F5</div><div class="key" data-k="F6">F6</div>
+          <div class="key" data-k="F7">F7</div><div class="key" data-k="F8">F8</div>
+          <div class="key" data-k="F9">F9</div><div class="key" data-k="F10">F10</div>
+          <div class="key" data-k="F11">F11</div><div class="key" data-k="F12">F12</div>
+        </div>
+        <!-- Row 2 -->
+        <div class="krow">
+          <div class="key" data-k="`">`</div>
+          <div class="key" data-k="1">1</div><div class="key" data-k="2">2</div>
+          <div class="key" data-k="3">3</div><div class="key" data-k="4">4</div>
+          <div class="key" data-k="5">5</div><div class="key" data-k="6">6</div>
+          <div class="key" data-k="7">7</div><div class="key" data-k="8">8</div>
+          <div class="key" data-k="9">9</div><div class="key" data-k="0">0</div>
+          <div class="key" data-k="-">-</div><div class="key" data-k="=">=</div>
+          <div class="key w3" data-k="Backspace">BKSP</div>
+        </div>
+        <!-- Row 3 -->
+        <div class="krow">
+          <div class="key w3" data-k="Tab">TAB</div>
+          <div class="key" data-k="q">Q</div><div class="key" data-k="w">W</div>
+          <div class="key" data-k="e">E</div><div class="key" data-k="r">R</div>
+          <div class="key" data-k="t">T</div><div class="key" data-k="y">Y</div>
+          <div class="key" data-k="u">U</div><div class="key" data-k="i">I</div>
+          <div class="key" data-k="o">O</div><div class="key" data-k="p">P</div>
+          <div class="key" data-k="[">[</div><div class="key" data-k="]">]</div>
+          <div class="key w2" data-k="\">\</div>
+        </div>
+        <!-- Row 4 -->
+        <div class="krow">
+          <div class="key w4" data-k="CapsLock">CAPS</div>
+          <div class="key" data-k="a">A</div><div class="key" data-k="s">S</div>
+          <div class="key" data-k="d">D</div><div class="key" data-k="f">F</div>
+          <div class="key" data-k="g">G</div><div class="key" data-k="h">H</div>
+          <div class="key" data-k="j">J</div><div class="key" data-k="k">K</div>
+          <div class="key" data-k="l">L</div><div class="key" data-k=";">;</div>
+          <div class="key" data-k="'">'</div>
+          <div class="key w4" data-k="Enter">ENTER</div>
+        </div>
+        <!-- Row 5 -->
+        <div class="krow">
+          <div class="key w5" data-k="Shift">SHIFT</div>
+          <div class="key" data-k="z">Z</div><div class="key" data-k="x">X</div>
+          <div class="key" data-k="c">C</div><div class="key" data-k="v">V</div>
+          <div class="key" data-k="b">B</div><div class="key" data-k="n">N</div>
+          <div class="key" data-k="m">M</div><div class="key" data-k=",">,</div>
+          <div class="key" data-k=".">.</div><div class="key" data-k="/">/</div>
+          <div class="key w5" data-k="Shift">SHIFT</div>
+        </div>
+        <!-- Row 6 -->
+        <div class="krow">
+          <div class="key w3" data-k="Control">CTRL</div>
+          <div class="key w2" data-k="Meta">WIN</div>
+          <div class="key w2" data-k="Alt">ALT</div>
+          <div class="key space" data-k=" ">SPACE</div>
+          <div class="key w2" data-k="Alt">ALT</div>
+          <div class="key w3" data-k="Control">CTRL</div>
+        </div>
+      </div>
+      <div id="kbdStatus"></div>
+    </div>
+  </div>
+
+  <!-- STATUS -->
+  <div class="w w-stat" style="animation-delay:.14s">
+    <div class="wbar"><div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div><div class="wt">system — status</div><div class="wi">live</div></div>
+    <div class="wc">
+      <div class="statrow"><span class="statlbl">OS</span><span class="statval">Arch Linux</span></div>
+      <div class="statrow"><span class="statlbl">WM</span><span class="statval">Hyprland</span></div>
+      <div class="statrow"><span class="statlbl">Shell</span><span class="statval">zsh 5.9</span></div>
+      <div class="statrow"><span class="statlbl">Terminal</span><span class="statval">kitty</span></div>
+      <div class="statrow"><span class="statlbl">GPU Temp</span><span class="statval" id="gputemp">54°C</span></div>
+      <div class="statrow"><span class="statlbl">CPU Temp</span><span class="statval" id="cputemp">62°C</span></div>
+      <div class="statrow"><span class="statlbl">Battery</span><span class="statval">90% ⚡</span></div>
+      <div class="statrow"><span class="statlbl">Network</span><span class="statval" id="netstat">↑1.2M ↓0.5M</span></div>
+    </div>
+  </div>
+
+  <!-- HTOP -->
+  <div class="w w-htop" style="animation-delay:.40s">
+    <div class="wbar"><div class="dots"><div class="d dr"></div><div class="d dy"></div><div class="d dg"></div></div><div class="wt">htop — system monitor · mkhmatcore</div><div class="wi">live</div></div>
+    <div class="wc">
+      <div class="htoph">
+        <span>Tasks: 133 · <span style="color:var(--acc)">4 running</span> · 1107 kthr</span>
+        <span>Load: <span id="loadavg">2.31 1.87 1.44</span></span>
+        <span>Uptime: <span id="upthtop">0h 00m</span></span>
+      </div>
+      <div class="htopg">
+        <div class="hrow"><span class="hlbl">CPU 1</span><div class="hbw"><div class="hbf" id="h1" style="width:23%"></div></div><span class="hpct" id="h1t">23%</span></div>
+        <div class="hrow"><span class="hlbl">CPU 2</span><div class="hbw"><div class="hbf" id="h2" style="width:17%"></div></div><span class="hpct" id="h2t">17%</span></div>
+        <div class="hrow"><span class="hlbl">CPU 3</span><div class="hbw"><div class="hbf" id="h3" style="width:41%"></div></div><span class="hpct" id="h3t">41%</span></div>
+        <div class="hrow"><span class="hlbl">CPU 4</span><div class="hbw"><div class="hbf" id="h4" style="width:8%"></div></div><span class="hpct" id="h4t">8%</span></div>
+        <div class="hrow"><span class="hlbl">CPU 5</span><div class="hbw"><div class="hbf" id="h5" style="width:32%"></div></div><span class="hpct" id="h5t">32%</span></div>
+        <div class="hrow"><span class="hlbl">CPU 6</span><div class="hbw"><div class="hbf" id="h6" style="width:55%"></div></div><span class="hpct" id="h6t">55%</span></div>
+        <div class="hrow"><span class="hlbl">MEM</span><div class="hbw"><div class="hbf" style="width:27%"></div></div><span class="hpct">1.36G</span></div>
+        <div class="hrow"><span class="hlbl">SWP</span><div class="hbw"><div class="hbf" style="width:2%"></div></div><span class="hpct">0.3G</span></div>
+        <div class="hrow"><span class="hlbl">GPU</span><div class="hbw"><div class="hbf" id="hg" style="width:12%"></div></div><span class="hpct" id="hgt">12%</span></div>
+        <div class="hrow"><span class="hlbl">VRAM</span><div class="hbw"><div class="hbf" id="hvr" style="width:18%"></div></div><span class="hpct" id="hvrt">18%</span></div>
+        <div class="hrow"><span class="hlbl">NET↑</span><div class="hbw"><div class="hbf" id="hnu" style="width:7%"></div></div><span class="hpct" id="hnut">1.2M</span></div>
+        <div class="hrow"><span class="hlbl">NET↓</span><div class="hbw"><div class="hbf" id="hnd" style="width:4%"></div></div><span class="hpct" id="hndt">0.5M</span></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end app -->
+
+<audio id="audio" crossorigin="anonymous" preload="auto">
+  <source src="https://raw.githubusercontent.com/boomboomsigmarizz-cloud/Leksik/main/alexg.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* ══════════ BOOT ══════════ */
+const bootLines = document.querySelectorAll('.bl');
+const bootEl = document.getElementById('boot');
+const appEl = document.getElementById('app');
+let bi = 0;
+function showBoot(){
+  if(bi < bootLines.length){
+    bootLines[bi].classList.add('on'); bi++;
+    setTimeout(showBoot, bi === bootLines.length ? 500 : 130 + Math.random()*100);
+  } else { setTimeout(launchApp, 600); }
+}
+function launchApp(){
+  bootEl.classList.add('hide');
+  setTimeout(()=>{ bootEl.style.display='none'; appEl.classList.add('show'); initAll(); }, 700);
+}
+function skipBoot(){ bootLines.forEach(l=>l.classList.add('on')); setTimeout(launchApp,300); }
+document.addEventListener('keydown', skipBoot, {once:true});
+document.addEventListener('click', skipBoot, {once:true});
+setTimeout(showBoot, 400);
+
+/* ══════════ THEME ══════════ */
+function setTheme(t){
+  document.body.className = t;
+  document.querySelectorAll('.th').forEach(el => el.classList.remove('act'));
+  const map = {'':'th-bw','green':'th-g','blue':'th-b','red':'th-r','amber':'th-a','purple':'th-p'};
+  document.querySelector('.'+map[t])?.classList.add('act');
+}
+
+/* ══════════ INIT ══════════ */
+const t0 = Date.now();
+function initAll(){
+  initClock();
+  initUptime();
+  initMatrix();
+  initSkills();
+  initEQ();
+  initPS();
+  initHtop();
+  initTerminal();
+  initKeyboard();
+  initMusic();
+}
+
+/* ══════════ CLOCK ══════════ */
+function initClock(){
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function tick(){
+    const n = new Date();
+    const p = x=>String(x).padStart(2,'0');
+    document.getElementById('clk').textContent = `${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;
+    document.getElementById('bigclk').textContent = `${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;
+    document.getElementById('bigdate').textContent = `${days[n.getDay()]}, ${n.getDate()} ${months[n.getMonth()]} ${n.getFullYear()}`;
+    // world times
+    const fmt = tz => { try { return new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit',timeZone:tz}); } catch(e){ return '--:--'; }};
+    document.getElementById('tmsc').textContent = fmt('Europe/Moscow');
+    document.getElementById('tldn').textContent = fmt('Europe/London');
+    document.getElementById('tnyc').textContent = fmt('America/New_York');
+    document.getElementById('ttky').textContent = fmt('Asia/Tokyo');
+    // day of year
+    const start = new Date(n.getFullYear(),0,0), diff = n-start;
+    document.getElementById('dayn').textContent = Math.floor(diff/86400000);
+    // temps (fake animated)
+    document.getElementById('gputemp').textContent = (50+Math.random()*12).toFixed(0)+'°C';
+    document.getElementById('cputemp').textContent = (58+Math.random()*15).toFixed(0)+'°C';
+    const u=(Math.random()*3+0.5).toFixed(1), d=(Math.random()*2+0.2).toFixed(1);
+    document.getElementById('netstat').textContent = `↑${u}M ↓${d}M`;
+  }
+  setInterval(tick,1000); tick();
+}
+
+/* ══════════ UPTIME ══════════ */
+function initUptime(){
+  function upd(){
+    const s=Math.floor((Date.now()-t0)/1000);
+    const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=s%60;
+    const str=`${h}h ${String(m).padStart(2,'0')}m ${String(sc).padStart(2,'0')}s`;
+    const str2=`${h}h ${String(m).padStart(2,'0')}m`;
+    ['upnf','upthtop'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent = id==='upnf'?str:str2; });
+    document.getElementById('upt2').textContent = str2;
+  }
+  setInterval(upd,1000); upd();
+}
+
+/* ══════════ MATRIX ══════════ */
+function initMatrix(){
+  const canvas=document.getElementById('matrix');
+  const ctx=canvas.getContext('2d');
+  function resize(){
+    canvas.width=canvas.parentElement.clientWidth-16;
+    canvas.height=190;
+  }
+  resize();
+  const chars='アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEFGHIJKLMNOPQRST@#$%&*></?';
+  let drops=Array(Math.floor(canvas.width/11)).fill(1);
+  window.addEventListener('resize',()=>{ resize(); drops=Array(Math.floor(canvas.width/11)).fill(1); });
+  setInterval(()=>{
+    ctx.fillStyle='rgba(8,8,8,.1)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.font='11px JetBrains Mono';
+    drops.forEach((y,i)=>{
+      const c=chars[Math.floor(Math.random()*chars.length)];
+      const b=Math.random();
+      ctx.fillStyle=b>.96?'#fff':b>.75?'#555':b>.4?'#2a2a2a':'#161616';
+      ctx.fillText(c,i*11,y*11);
+      if(y*11>canvas.height&&Math.random()>.975)drops[i]=0;
+      drops[i]++;
+    });
+  },55);
+}
+
+/* ══════════ SKILLS ══════════ */
+function initSkills(){
+  setTimeout(()=>{
+    document.querySelectorAll('.skfill').forEach(b=>b.style.width=b.dataset.w+'%');
+  },800);
+}
+
+/* ══════════ EQ BARS ══════════ */
+function initEQ(){
+  const eq=document.getElementById('meq');
+  for(let i=0;i<32;i++){
+    const b=document.createElement('div');
+    b.className='eqb';
+    const mn=Math.floor(Math.random()*4+2), mx=Math.floor(Math.random()*36+6);
+    const d=(Math.random()*.45+.12).toFixed(2);
+    b.style.cssText=`height:${mn}px;transition:height ${d}s ease-in-out;`;
+    b.dataset.mn=mn; b.dataset.mx=mx;
+    eq.appendChild(b);
+  }
+  // Animate when music is playing
+  setInterval(()=>{
+    const audio=document.getElementById('audio');
+    if(!audio.paused){
+      document.querySelectorAll('.eqb').forEach(b=>{
+        const mn=parseInt(b.dataset.mn), mx=parseInt(b.dataset.mx);
+        b.style.height=(Math.random()<.5?mn:Math.floor(Math.random()*(mx-mn)+mn))+'px';
+      });
+    } else {
+      document.querySelectorAll('.eqb').forEach(b=>b.style.height=b.dataset.mn+'px');
+    }
+  },140);
+}
+
+/* ══════════ PROCESSES ══════════ */
+const PROCS=[
+  [735,'Hyprland',43.6,1.7,'11:55:59'],
+  [814,'Xwayland',6.4,0.7,'1:38:16'],
+  [967,'kitty',5.3,0.0,'0:04:08'],
+  [1017,'spotify',49.5,2.1,'0:38:08'],
+  [1151,'cava',4.2,0.3,'1:11:22'],
+  [1180,'wf-recorder',8.4,3.4,'0:02:34'],
+  [11301,'python3',19.8,0.7,'2:01:15'],
+  [13950,'zsh',2.0,4.2,'0:08:16'],
+  [12965,'bash',0.0,1.4,'0:02:34'],
+  [1589,'waybar',1.2,0.9,'1:04:21'],
+];
+function initPS(){
+  function render(){
+    const list=document.getElementById('pslist');
+    list.innerHTML='';
+    [...PROCS].sort(()=>Math.random()-.5).slice(0,7).forEach(([pid,name,cpu,mem,time])=>{
+      const d=document.createElement('div'); d.className='psrow';
+      const c=(cpu+(Math.random()*6-3)).toFixed(1);
+      d.innerHTML=`<span style="color:var(--dim)">${pid}</span><span class="pn">${name}</span><span class="${parseFloat(c)>20?'ph':''}">${c}</span><span>${mem}</span><span>${time}</span>`;
+      list.appendChild(d);
+    });
+  }
+  render(); setInterval(render,3000);
+}
+
+/* ══════════ HTOP ══════════ */
+function initHtop(){
+  const cfg=[['h1','h1t',5,65],['h2','h2t',4,55],['h3','h3t',8,78],['h4','h4t',2,45],['h5','h5t',6,62],['h6','h6t',10,82],['hg','hgt',4,50],['hvr','hvrt',10,38],['hnu','hnut',1,22],['hnd','hndt',1,16]];
+  function upd(){
+    let tot=0;
+    cfg.forEach(([bid,tid,lo,hi])=>{
+      const p=Math.floor(Math.random()*(hi-lo)+lo);
+      const b=document.getElementById(bid),t=document.getElementById(tid);
+      if(b)b.style.width=p+'%';
+      if(t) t.textContent=bid.startsWith('hn')?(p*.12).toFixed(1)+'M':p+'%';
+      if(bid.startsWith('h')&&bid.length===2&&!isNaN(bid[1]))tot+=p;
+    });
+    const avg=Math.floor(tot/6);
+    document.getElementById('topcpu').textContent=avg+'%';
+    document.getElementById('netspd').textContent=(Math.random()*3+.4).toFixed(1)+'M';
+    document.getElementById('loadavg').textContent=`${(Math.random()*3+.5).toFixed(2)} ${(Math.random()*2+.3).toFixed(2)} ${(Math.random()*1.5+.1).toFixed(2)}`;
+  }
+  setTimeout(upd,900); setInterval(upd,2600);
+}
+
+/* ══════════ TERMINAL ══════════ */
+const FS = {
+  '~': ['bio.txt','id.txt','projects.md','stack.json','.bashrc','.zshrc'],
+  'projects': ['osint-toolkit','dotfiles','automation','web'],
+};
+const CMDS = {
+  help: ()=>`<span style="color:var(--acc)">Available commands:</span>
+whoami · cat [file] · ls [dir] · pwd · uname · date
+neofetch · clear · echo [text] · theme [name]
+uptime · ps · top · history · hack · matrix · about`,
+  whoami: ()=>`<span style="color:var(--acc)">leksik</span> — researcher, builder, arch user`,
+  pwd: ()=>`/home/leksik`,
+  uname: ()=>`Linux mkhmatcore 6.16.8-arch3-1 #1 SMP x86_64 GNU/Linux`,
+  date: ()=>new Date().toString(),
+  uptime: ()=>{ const s=Math.floor((Date.now()-t0)/1000); const h=Math.floor(s/3600),m=Math.floor((s%3600)/60); return `up ${h}h ${m}m, 1 user, load average: 2.31, 1.87, 1.44`; },
+  neofetch: ()=>`<span style="color:var(--acc)">OS:</span> Arch Linux x86_64
+<span style="color:var(--acc)">WM:</span> Hyprland · <span style="color:var(--acc)">Term:</span> kitty
+<span style="color:var(--acc)">CPU:</span> Intel i5-12500H @ 4.5GHz
+<span style="color:var(--acc)">GPU:</span> NVIDIA RTX 3060 Mobile
+<span style="color:var(--acc)">MEM:</span> 1.36G / 15.41G`,
+  ps: ()=>`PID   NAME          CPU%  MEM%
+735   Hyprland      43.6  1.7
+967   kitty          5.3  0.0
+1151  cava           4.2  0.3`,
+  top: ()=>`Tasks: 133 total, 4 running
+Load avg: 2.31, 1.87, 1.44
+MEM: 1.36G/15.41G`,
+  about: ()=>`<span style="color:var(--acc)">leksik</span> — Russia · OSINT · Linux · VR
+Rec Room veteran · full S rank on multiple quests
+Stack: Python, Bash, C#, HTML/CSS/JS, Batch, VBScript`,
+  hack: ()=>`<span style="color:var(--acc)">Initiating hack sequence...</span>
+<span class="err">Access denied. Nice try.</span>`,
+  matrix: ()=>`<span style="color:var(--acc)">Wake up, Neo...</span>`,
+  clear: ()=>'__CLEAR__',
+  ls: (args)=>{
+    const dir = args[0] || '~';
+    const files = FS[dir] || FS['~'];
+    return files.join('  ');
+  },
+  echo: (args)=>args.join(' '),
+  cat: (args)=>{
+    const f=args[0];
+    const files = {
+      'bio.txt': 'PC 2019 · VR 2020 · Rec Room veteran · OSINT researcher',
+      'id.txt': 'user: leksik · country: Russia · status: online',
+      'projects.md': '# Projects\n- OSINT toolkit\n- Hyprland dotfiles\n- Automation scripts',
+      'stack.json': '{"lang":["Python","Bash","C#","JS"],"os":"Arch","wm":"Hyprland"}',
+      '.bashrc': '# leksik bashrc\nalias ll="ls -la"\nalias update="pacman -Syu"',
+      '.zshrc': '# leksik zshrc\nexport PATH="$HOME/.local/bin:$PATH"',
+    };
+    return files[f] ? `<span style="color:var(--mid)">${files[f]}</span>` : `<span class="err">cat: ${f}: No such file or directory</span>`;
+  },
+  theme: (args)=>{
+    const themes=['','green','blue','red','amber','purple'];
+    const t=args[0]||'';
+    if(themes.includes(t)){ setTheme(t); return `Theme set to: <span style="color:var(--acc)">${t||'default'}</span>`; }
+    return `<span class="err">Unknown theme. Try: ${themes.join(', ')}</span>`;
+  },
+  history: ()=>`1  whoami\n2  ls\n3  cat bio.txt\n4  neofetch\n5  ps`,
+};
+let termHistory=[];
+function initTerminal(){
+  const scroll=document.getElementById('tscroll');
+  const input=document.getElementById('tinput');
+  function addLine(html,type='out'){
+    const d=document.createElement('div');
+    d.className='tl-out';
+    d.innerHTML=html;
+    scroll.appendChild(d);
+    scroll.scrollTop=scroll.scrollHeight;
+  }
+  addLine(`<span style="color:var(--acc)">adapter terminal v3.0</span> — type <span style="color:var(--acc)">help</span> for commands`);
+  addLine(`leksik@mkhmatcore ~ $`);
+  input.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){
+      const cmd=input.value.trim();
+      if(!cmd)return;
+      termHistory.unshift(cmd);
+      addLine(`<span class="tp">leksik@arch ~ $</span> <span class="tc">${cmd}</span>`);
+      const [c,...args]=cmd.split(' ');
+      const fn=CMDS[c.toLowerCase()];
+      if(fn){
+        const res=fn(args);
+        if(res==='__CLEAR__'){scroll.innerHTML='';addLine(`<span style="color:var(--acc)">adapter terminal v3.0</span> — cleared`);}
+        else if(res) addLine(res);
+      } else {
+        addLine(`<span class="err">command not found: ${c} — type help</span>`);
+      }
+      input.value='';
+    }
+  });
+  input.addEventListener('focus',()=>{ input.placeholder=''; });
+  input.addEventListener('blur',()=>{ input.placeholder='type a command... (help)'; });
+}
+
+/* ══════════ KEYBOARD ══════════ */
+function initKeyboard(){
+  const status=document.getElementById('kbdStatus');
+  const keyMap={};
+  document.querySelectorAll('.key').forEach(k=>{
+    const kv=k.dataset.k;
+    if(kv) keyMap[kv.toLowerCase()]=k;
+    k.addEventListener('mousedown',()=>{ k.classList.add('lit'); setTimeout(()=>k.classList.remove('lit'),200); });
+  });
+  document.addEventListener('keydown',e=>{
+    e.preventDefault();
+    const k=e.key.toLowerCase();
+    const el=keyMap[k]||keyMap[e.code?.toLowerCase()];
+    if(el){ el.classList.add('lit'); status.textContent=`⌨ ${e.key} pressed`; }
+    // focus terminal input on printable chars
+    const tin=document.getElementById('tinput');
+    if(e.key.length===1||e.key==='Backspace'||e.key==='Enter'){
+      tin.focus();
+    }
+  });
+  document.addEventListener('keyup',e=>{
+    const k=e.key.toLowerCase();
+    const el=keyMap[k]||keyMap[e.code?.toLowerCase()];
+    if(el) el.classList.remove('lit');
+    setTimeout(()=>{ if(status.textContent.includes(e.key)) status.textContent=''; },1000);
+  });
+}
+
+/* ══════════ MUSIC ══════════ */
+function initMusic(){
+  const audio=document.getElementById('audio');
+  const btn=document.getElementById('mplaybtn');
+  const fill=document.getElementById('mpfill');
+  const cur=document.getElementById('mcur');
+  const dur=document.getElementById('mdur');
+  const needle=document.getElementById('mneedle');
+  const vring=document.getElementById('vring');
+  const status=document.getElementById('mstatus');
+  const loop=document.getElementById('mloopbtn');
+  audio.volume=0.8;
+  let isLoop=false;
+
+  function fmt(s){ if(!s||isNaN(s))return '0:00'; const m=Math.floor(s/60); return `${m}:${String(Math.floor(s%60)).padStart(2,'0')}`; }
+
+  audio.addEventListener('loadedmetadata',()=>{ dur.textContent=fmt(audio.duration); });
+  audio.addEventListener('timeupdate',()=>{
+    if(audio.duration){
+      const pct=(audio.currentTime/audio.duration)*100;
+      fill.style.width=pct+'%';
+      cur.textContent=fmt(audio.currentTime);
+    }
+  });
+  audio.addEventListener('ended',()=>{
+    if(!isLoop){ btn.textContent='▶'; btn.classList.add('mplay'); needle.classList.add('off'); vring.style.animationPlayState='paused'; status.textContent='⏸ ended'; }
+  });
+  audio.addEventListener('play',()=>{
+    btn.textContent='⏸'; needle.classList.remove('off'); vring.style.animationPlayState='running';
+    status.textContent='▶ playing — alexg.mp3';
+  });
+  audio.addEventListener('pause',()=>{
+    btn.textContent='▶'; needle.classList.add('off'); vring.style.animationPlayState='paused';
+    status.textContent='⏸ paused';
+  });
+  audio.addEventListener('error',()=>{ status.textContent='<span style="color:#ff4444">⚠ error loading file — check CORS</span>'; });
+}
+
+window.togglePlay=function(){
+  const a=document.getElementById('audio');
+  if(a.paused) a.play().catch(()=>{ document.getElementById('mstatus').textContent='⚠ autoplay blocked — click play'; });
+  else a.pause();
+};
+window.stopMusic=function(){
+  const a=document.getElementById('audio'); a.pause(); a.currentTime=0;
+};
+window.restartMusic=function(){
+  const a=document.getElementById('audio'); a.currentTime=0; a.play().catch(()=>{});
+};
+window.toggleLoop=function(){
+  const a=document.getElementById('audio');
+  a.loop=!a.loop;
+  document.getElementById('mloopbtn').style.opacity=a.loop?'1':'.4';
+};
+window.setVolume=function(v){
+  document.getElementById('audio').volume=v/100;
+  document.getElementById('mvollbl').textContent=v+'%';
+};
+window.seekMusic=function(e){
+  const a=document.getElementById('audio');
+  if(!a.duration)return;
+  const bar=document.getElementById('mpbar');
+  const pct=e.offsetX/bar.offsetWidth;
+  a.currentTime=pct*a.duration;
+};
+</script>
+</body>
+</html>
