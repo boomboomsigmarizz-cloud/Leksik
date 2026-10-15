@@ -3,244 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile — dobryaaaaak</title>
+    <title>shindows™ profile</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
+        /* Чистый, упрощенный темный стиль */
         body {
-            background-color: #0b0c10;
-            color: #c5c6c7;
+            background-color: #0a0a0c;
+            color: #d1d5db;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            margin: 0;
             padding: 20px;
         }
 
-        .card {
-            background: #11141a;
-            border: 1px solid #1f2430;
-            border-radius: 16px;
+        .container {
+            background: #121216;
+            border: 1px solid #22222a;
+            border-radius: 12px;
             width: 100%;
-            max-width: 440px;
-            padding: 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-            position: relative;
+            max-width: 460px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
         }
 
-        /* Декоративная рамка из ДС */
-        .border-decor {
+        /* Твои рамки из ДС */
+        .decor-line {
             text-align: center;
-            color: #4f5b73;
-            font-size: 14px;
-            letter-spacing: 2px;
+            color: #4b5563;
+            font-size: 13px;
             margin: 10px 0;
+            letter-spacing: 1px;
         }
 
-        /* Шапка профиля */
-        .header {
+        /* Шапка с новым лого Shindows */
+        .profile-header {
             text-align: center;
             margin-bottom: 20px;
         }
 
-        .avatar {
-            width: 95px;
-            height: 95px;
-            background: #1f2430;
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            border: 2px solid #45f3ff;
-            box-shadow: 0 0 15px rgba(69, 243, 255, 0.2);
-        }
-
-        .name {
-            font-size: 26px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 5px;
-            letter-spacing: 0.5px;
-        }
-
-        .discord-tag {
-            font-size: 13px;
-            color: #45f3ff;
-            background: rgba(69, 243, 255, 0.07);
-            padding: 5px 14px;
-            border-radius: 20px;
-            display: inline-block;
-            font-weight: 600;
-        }
-
-        /* Блоки информации */
-        .section {
-            margin-bottom: 18px;
-            border-bottom: 1px solid #1f2430;
-            padding-bottom: 14px;
-        }
-
-        .section:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-            margin-bottom: 0;
-        }
-
-        .section-title {
-            font-size: 11px;
+        .logo-area {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            font-weight: bold;
+            color: #3b82f6;
+            margin-bottom: 10px;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #525f78;
-            margin-bottom: 8px;
-            font-weight: 700;
+            letter-spacing: 2px;
         }
 
-        .text {
+        .username {
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .ds-tag {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        /* Блоки с твоей кастомной инфой */
+        .info-section {
+            margin: 16px 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #1e1e24;
+        }
+
+        .info-section:last-of-type {
+            border-bottom: none;
+        }
+
+        .info-row {
+            margin-bottom: 6px;
             font-size: 14px;
             line-height: 1.6;
-            color: #a4b3c6;
         }
 
-        .highlight {
-            color: #fff;
-            font-weight: 600;
+        .label {
+            color: #9ca3af;
         }
 
-        /* Ссылка-кнопка */
-        .link-button {
+        .value {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .custom-icon {
+            margin-right: 6px;
+        }
+
+        /* Кнопка-ссылка */
+        .guns-link {
             display: inline-block;
-            margin-top: 5px;
-            color: #45f3ff;
+            margin-top: 8px;
+            color: #3b82f6;
             text-decoration: none;
             font-weight: 600;
-            transition: opacity 0.2s;
+            font-size: 14px;
         }
 
-        .link-button:hover {
-            opacity: 0.8;
-        }
-
-        /* Плеер */
-        .player {
-            background: #171b26;
-            border-radius: 12px;
-            padding: 14px;
+        /* КРАСИВЫЙ МЬЮЗИК ПЛЕЕР (вернул на место) */
+        .music-player {
+            background: #181822;
+            border: 1px solid #282835;
+            border-radius: 8px;
+            padding: 12px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-top: 10px;
-            border: 1px solid #23293a;
+            gap: 12px;
+            margin-top: 15px;
         }
 
-        .player-icon {
-            font-size: 22px;
-            animation: pulse 1.8s infinite ease-in-out;
-        }
-
-        .track-info {
-            font-size: 13px;
-        }
-
-        .track-name {
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .track-status {
-            color: #525f78;
+        .play-status {
             font-size: 11px;
-            margin-top: 2px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.08); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.7; }
+        .track-title {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="border-decor">══ஜ۩۞۩ஜ══</div>
+    <div class="container">
+        <div class="decor-line">══ஜ۩۞۩ஜ══</div>
 
-        <!-- Шапка -->
-        <div class="header">
-            <div class="avatar"></div>
-            <div class="name">dobryaaaaak</div>
-            <div class="discord-tag">ds: @dobryaaaaak</div>
+        <div class="profile-header">
+            <!-- Новое лого вместо федоры -->
+            <div class="logo-area">shindows™</div>
+            <div class="username">dobryaaaaak</div>
+            <div class="ds-tag">discord: dobryaaaaak</div>
         </div>
-
-        <!-- Статус / Био -->
-        <div class="section">
-            <div class="section-title">Status</div>
-            <p class="text">
-                <span class="highlight">Мегокрутобезнесме</span> (Bday: 05.07)<br>
-                <span style="color: #ff4757;">• Offline</span> from 11:30 to 20:15
-            </p>
-        </div>
-
-        <!-- Отношения -->
-        <div class="section">
-            <div class="section-title">Love of my life</div>
-            <p class="text">❤️ <span class="highlight">@typhhhhh</span> / @typhhhhh0</p>
-        </div>
-
-        <!-- Кодинг и Читы -->
-        <div class="section">
-            <div class="section-title">Development & Soft</div>
-            <p class="text">
-                Dev: <span class="highlight">JS / Lua</span> Coder<br>
-                Cheats: <span class="highlight">Potassium, AW, NL, KRX, Rockstar (MC)</span>
-            </p>
-        </div>
-
-        <!-- Игры и VR -->
-        <div class="section">
-            <div class="section-title">Gaming & Gear</div>
-            <p class="text">
-                VR: <span class="highlight">Oculus Quest 3S</span> (Rec Room / GG RR)<br>
-                Games: <span class="highlight">GD, DDNet, CS2, Minecraft, Roblox</span><br>
-                More: Content Warning, RWBY: Arrowfell, Brick Rigs
-            </p>
-        </div>
-
-        <!-- Обувь и Друг -->
-        <div class="section">
-            <div class="section-title">Info</div>
-            <p class="text">
-                Best Friend: ⭐ <span class="highlight">xdkep4</span><br>
-                Kicks: Имеются <span class="highlight">Джереми Скотты</span> 🥶🤙<br>
-                <a href="https://guns.lol/Leksik" target="_blank" class="link-button">🔗 guns.lol/Leksik</a>
-            </p>
-        </div>
-
-        <div class="border-decor">══ஜ۩۞۩ஜ══</div>
-
-        <!-- Музыкальный плеер -->
-        <div class="section">
-            <div class="section-title">Now Playing</div>
-            <div class="player">
-                <div class="player-icon">🎵</div>
-                <div class="track-info">
-                    <div class="track-name">all in my head</div>
-                    <div class="track-status">Воспроизведение активировано</div>
-                </div>
+        <!-- БИО И СТАТУС -->
+        <div class="info-section">
+            <div class="info-row">
+                <span class="custom-icon">💍</span>
+                <span class="value">Очен сильно люблю @typhhhhh0 / @typhhhhh</span>
             </div>
-            <!-- Файл музыки -->
-            <audio id="bg-audio" src="alexg.mp3" autoplay loop></audio>
+            <div class="info-row">
+                <span class="custom-icon">⏳</span>
+                <span class="label">Status:</span> 
+                <span class="value">Мегокрутобезнесме™</span>
+            </div>
+            <div class="info-row">
+                <span class="custom-icon">🎂</span>
+                <span class="label">Bday:</span> 
+                <span class="value">05.07</span> <span class="label">(**твинк акк**)</span>
+            </div>
         </div>
+
+        <!-- КОДИНГ И СОФТ -->
+        <div class="info-section">
+            <div class="info-row">
+                <span class="custom-icon">💻</span>
+                <span class="label">Dev:</span> 
+                <span class="value">JS / Lua coder</span>
+            </div>
+            <div class="info-row">
+                <span class="custom-icon">💉</span>
+                <span class="label">Soft:</span> 
+                <span class="value">Potassium, AW / NL, krx, Rockstar (MC) user</span>
+            </div>
+        </div>
+
+        <!-- VR И ЖЕЛЕЗО -->
+        <div class="info-section">
+            <div class="info-row">
+                <span class="custom-icon">🥽</span>
+                <span class="label">VR Gear:</span> 
+                <span class="value">Oculus Quest 3S</span>
+            </div>
+            <div class="info-row">
+                <span class="custom-icon">👑</span>
+                <span class="label">Main:</span> 
+                <span class="value">Rec Room (GG RR)</span>
+            </div>
+        </div>
+
+        <!-- ИГРЫ -->
+        <div class="info-section">
+            <div class="info-row">
+                <span class="custom-icon">🎮</span>
+                <span class="label">Games:</span> 
+                <span class="value">GD • DDnet • CS2 • MC • RBX</span>
+            </div>
+            <div class="info-row">
+                <span class="custom-icon">🎲</span>
+                <span class="label">Other:</span> 
+                <span class="value">Content Warning, RWBY: Arrowfell, Brick Rigs</span>
+            </div>
+        </div>
+
+        <!-- ДРУЗЬЯ И СТАФФ -->
+        <div class="info-section">
+            <div class="info-row">
+                <span class="custom-icon">⭐</span>
+                <span class="label">Best Friend:</span> 
+                <span class="value">xdkep4..</span> <span class="label">(самый лучший)</span>
+            </div>
+            <div class="info-row">
+                <span class="custom-icon">👟</span>
+                <span class="value">Имеюца джереми скоты 🥶🤙</span>
+            </div>
+            <div class="info-row">
+                <span class="custom-icon">🔗</span>
+                <a href="https://guns.lol" target="_blank" class="guns-link">guns.lol/Leksik</a>
+            </div>
+        </div>
+        <div class="decor-line">══ஜ۩۞۩ஜ══</div>
+
+        <!-- КРАСИВЫЙ МЬЮЗИК ПЛЕЕР -->
+        <div class="music-player">
+            <div style="font-size: 24px;">🎵</div>
+            <div>
+                <div class="play-status">Now Playing</div>
+                <div class="track-title">all in my head</div>
+            </div>
+        </div>
+        
+        <!-- Аудиофайл (название alexg.mp3) -->
+        <audio id="bg-audio" src="alexg.mp3" autoplay loop></audio>
     </div>
 
     <script>
-        // Запуск музыки по первому клику
+        // Скрипт автозапуска трека при первом клике пользователя по сайту
         window.addEventListener('click', () => {
             const audio = document.getElementById('bg-audio');
-            if (audio.paused) { audio.play(); }
+            if (audio.paused) { 
+                audio.play().catch(err => console.log("Музыка ждет клика")); 
+            }
         });
-    </style>
+    </script>
 </body>
 </html>
